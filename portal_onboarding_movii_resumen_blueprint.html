@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Onboarding MOVii | Resumen, Flujo y Blueprint</title>
+  <style>
+    :root {
+      --blue-950: #082146;
+      --blue-900: #0b2f63;
+      --blue-800: #123f7a;
+      --blue-700: #1857a8;
+      --blue-100: #eaf3ff;
+      --blue-050: #f5f9ff;
+      --green-700: #08784f;
+      --green-100: #e7f7ef;
+      --amber-700: #9a5b00;
+      --amber-100: #fff4d8;
+      --red-700: #b42318;
+      --red-100: #fee4e2;
+      --gray-900: #111827;
+      --gray-700: #374151;
+      --gray-500: #667085;
+      --gray-300: #d0d5dd;
+      --gray-200: #eaecf0;
+      --gray-100: #f2f4f7;
+      --white: #ffffff;
+      --shadow: 0 18px 45px rgba(8, 33, 70, 0.10);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--gray-900);
+      background: linear-gradient(180deg, #f7fbff 0%, #ffffff 42%, #f8fafc 100%);
+      line-height: 1.45;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--gray-200);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+      font-weight: 800;
+      color: var(--blue-950);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--blue-900);
+      color: white;
+      font-size: 16px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--blue-900);
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--blue-050);
+      border: 1px solid #dbeafe;
+    }
+
+    .nav a:hover { background: var(--blue-100); }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 70px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      padding: 40px;
+      color: white;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(42, 191, 140, 0.34), transparent 30%),
+        linear-gradient(135deg, var(--blue-950) 0%, var(--blue-800) 58%, #0f766e 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -110px;
+      width: 290px;
+      height: 290px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 { margin: 0; letter-spacing: -0.03em; }
+
+    h1 {
+      max-width: 900px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.02;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 18px 0 0;
+      font-size: clamp(16px, 2vw, 19px);
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    section { scroll-margin-top: 92px; margin-top: 32px; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .section-title { color: var(--blue-950); font-size: clamp(24px, 3vw, 34px); }
+
+    .section-note {
+      max-width: 520px;
+      color: var(--gray-500);
+      font-size: 14px;
+      margin: 8px 0 0;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      min-height: 150px;
+      padding: 22px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      background: var(--white);
+      box-shadow: 0 12px 28px rgba(8, 33, 70, 0.06);
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--blue-100);
+      color: var(--blue-900);
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .card h3 { color: var(--blue-950); font-size: 18px; margin-bottom: 8px; }
+    .card p { margin: 0; color: var(--gray-700); font-size: 14px; }
+
+    .principle {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .principle-box {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      border: 1px solid #bfdbfe;
+      background: linear-gradient(180deg, #ffffff 0%, var(--blue-050) 100%);
+    }
+
+    .principle-box strong { color: var(--blue-950); font-size: 18px; }
+    .principle-box p { margin: 8px 0 0; color: var(--gray-700); }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge.pending { color: var(--amber-700); background: var(--amber-100); }
+    .badge.review { color: var(--blue-900); background: var(--blue-100); }
+    .badge.blocked { color: var(--red-700); background: var(--red-100); }
+    .badge.ready { color: var(--green-700); background: var(--green-100); }
+    .badge.live { color: #065f46; background: #d1fae5; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 195px;
+      padding: 18px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      background: white;
+      box-shadow: 0 10px 24px rgba(8, 33, 70, 0.06);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      color: white;
+      background: var(--blue-900);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .step h3 { font-size: 16px; color: var(--blue-950); margin-bottom: 8px; }
+    .step p { margin: 0; color: var(--gray-700); font-size: 13px; }
+    .step small { display: block; margin-top: 10px; color: var(--gray-500); font-size: 12px; }
+
+    .step.live-step {
+      border-color: #a7f3d0;
+      background: linear-gradient(180deg, #ffffff 0%, #ecfdf3 100%);
+    }
+
+    .blueprint-wrap {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      background: white;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .blueprint-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--blue-050);
+    }
+
+    .blueprint-toolbar strong { color: var(--blue-950); }
+    .blueprint-toolbar span { color: var(--gray-500); font-size: 13px; }
+
+    .table-scroll { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      min-width: 1180px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+
+    th, td {
+      vertical-align: top;
+      padding: 14px 12px;
+      border-right: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      background: white;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      color: white;
+      background: var(--blue-900);
+      font-size: 12px;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    th:first-child, td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      width: 170px;
+      min-width: 170px;
+      font-weight: 800;
+      color: var(--blue-950);
+      background: #f8fbff;
+      box-shadow: 6px 0 12px rgba(8, 33, 70, 0.05);
+    }
+
+    th:first-child { z-index: 4; background: var(--blue-950); color: white; }
+
+    td { color: var(--gray-700); }
+
+    .cell-title {
+      display: block;
+      color: var(--blue-950);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .rule { color: var(--red-700); font-weight: 700; }
+    .ok { color: var(--green-700); font-weight: 700; }
+
+    .note-bar {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      color: var(--gray-700);
+      font-size: 14px;
+    }
+
+    .note-bar strong { color: var(--blue-950); }
+
+    @media (max-width: 980px) {
+      .topbar { align-items: flex-start; flex-direction: column; padding: 14px 18px; }
+      .nav { justify-content: flex-start; }
+      .hero { padding: 30px 22px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .principle { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-head { display: block; }
+    }
+
+    @media (max-width: 620px) {
+      main { width: min(100% - 20px, 1180px); padding-top: 20px; }
+      .flow { grid-template-columns: 1fr; }
+      .step { min-height: unset; }
+      .blueprint-toolbar { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media print {
+      .topbar { position: static; }
+      body { background: white; }
+      section { break-inside: avoid; }
+      .blueprint-wrap { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="Navegación principal">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio">
+      <span class="brand-mark">M</span>
+      <span>Onboarding Comercios MOVii</span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#resumen">Resumen</a>
+      <a href="#flujo">Flujo</a>
+      <a href="#blueprint">Service Blueprint</a>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <section class="hero" aria-labelledby="titulo-principal">
+      <div class="eyebrow">Versión ejecutiva · Solo lo esencial</div>
+      <h1 id="titulo-principal">Portal de Onboarding y Autogestión de Comercios Directos MOVii</h1>
+      <p>Una plataforma para centralizar la vinculación del comercio, controlar reglas de avance y llevar cada solicitud hasta <strong>Producto Live / Cliente Live</strong> con trazabilidad.</p>
+    </section>
+
+    <section id="resumen" aria-labelledby="titulo-resumen">
+      <div class="section-head">
+        <div>
+          <h2 id="titulo-resumen" class="section-title">Resumen ejecutivo</h2>
+          <p class="section-note">Qué busca resolver el portal y cuál es el resultado esperado.</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <article class="card">
+          <div class="card-icon">1</div>
+          <h3>Problema actual</h3>
+          <p>El onboarding depende de correos, chats, Drive, Pipedrive, validaciones manuales y entrega dispersa de información técnica.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">2</div>
+          <h3>Solución propuesta</h3>
+          <p>Un portal que orquesta estados, tareas, bloqueos, evidencias, aprobaciones y responsabilidades por rol.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">3</div>
+          <h3>Resultado esperado</h3>
+          <p>El comercio avanza de forma guiada hasta quedar en <strong>Producto Live</strong> y, si tiene al menos un producto activo, en <strong>Cliente Live</strong>.</p>
+        </article>
+      </div>
+
+      <div class="principle">
+        <div class="principle-box">
+          <strong>Principio rector</strong>
+          <p>El comercio avanza solo si cumple reglas regulatorias, comerciales, contractuales, técnicas, operativas y de seguridad.</p>
+        </div>
+        <div class="principle-box">
+          <strong>Cuando no cumple</strong>
+          <p>El portal bloquea el avance, muestra el motivo y asigna la tarea al responsable: Comercio, Comercial, Riesgo o Integraciones.</p>
+          <div class="status-row" aria-label="Estados clave">
+            <span class="badge pending">Pendiente</span>
+            <span class="badge review">En revisión</span>
+            <span class="badge blocked">Bloqueado</span>
+            <span class="badge ready">Listo para producción</span>
+            <span class="badge live">Live</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flujo" aria-labelledby="titulo-flujo">
+      <div class="section-head">
+        <div>
+          <h2 id="titulo-flujo" class="section-title">Flujo resumido hasta Live</h2>
+          <p class="section-note">Vista clara del happy path, consolidada en pasos ejecutivos.</p>
+        </div>
+      </div>
+
+      <div class="flow" aria-label="Flujo principal de onboarding">
+        <article class="step">
+          <h3>Registro y OTP</h3>
+          <p>El comercio crea cuenta y valida su correo.</p>
+          <small>Habilita: inicio del formulario.</small>
+        </article>
+        <article class="step">
+          <h3>Formulario y documentos</h3>
+          <p>Completa datos, selecciona producto, declara ingresos y carga documentos.</p>
+          <small>Habilita: expediente digital.</small>
+        </article>
+        <article class="step">
+          <h3>Autorizaciones y KYC/KYB</h3>
+          <p>Acepta autorizaciones y el portal envía el expediente al agente existente.</p>
+          <small>Habilita: revisión de riesgo.</small>
+        </article>
+        <article class="step">
+          <h3>Due diligence</h3>
+          <p>Riesgo revisa alertas, documentos y beneficiarios finales.</p>
+          <small>Bloquea si hay alerta restrictiva.</small>
+        </article>
+        <article class="step">
+          <h3>NDA si aplica</h3>
+          <p>El comercio firma NDA con evidencia válida antes de recibir información sensible.</p>
+          <small>Habilita: documentación técnica.</small>
+        </article>
+        <article class="step">
+          <h3>Oferta de Valor</h3>
+          <p>Comercial parametriza tarifas y el comercio acepta la oferta.</p>
+          <small>Habilita: QA y base contractual.</small>
+        </article>
+        <article class="step">
+          <h3>Caso de Integración</h3>
+          <p>Integraciones centraliza contacto técnico, documentación, llaves, credenciales QA y tickets.</p>
+          <small>Habilita: pruebas o flujo simplificado.</small>
+        </article>
+        <article class="step">
+          <h3>Pruebas técnicas</h3>
+          <p>El comercio prueba; Integraciones valida o solicita ajustes. Algunos productos pueden omitir esta etapa.</p>
+          <small>Habilita: liberación productiva.</small>
+        </article>
+        <article class="step">
+          <h3>Contrato y producción</h3>
+          <p>Se firma contrato basado en la oferta aceptada y MOVii completa la configuración productiva.</p>
+          <small>Habilita: credenciales productivas.</small>
+        </article>
+        <article class="step live-step">
+          <h3>Credenciales y Live</h3>
+          <p>El comercio recibe credenciales por portal seguro. El producto queda Live.</p>
+          <small>Resultado: Producto Live / Cliente Live.</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="blueprint" aria-labelledby="titulo-blueprint">
+      <div class="section-head">
+        <div>
+          <h2 id="titulo-blueprint" class="section-title">Service Blueprint 360</h2>
+          <p class="section-note">Lectura integral de qué hace el comercio, qué muestra el portal y qué ejecuta MOVii en cada etapa.</p>
+        </div>
+      </div>
+
+      <div class="blueprint-wrap">
+        <div class="blueprint-toolbar">
+          <strong>Blueprint compacto del proceso end-to-end</strong>
+          <span>Desplaza horizontalmente para ver todas las etapas.</span>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Tabla Service Blueprint" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th>Vista 360</th>
+                <th>Registro</th>
+                <th>Datos y documentos</th>
+                <th>Due diligence</th>
+                <th>NDA</th>
+                <th>Oferta de Valor</th>
+                <th>Integración QA</th>
+                <th>Contrato</th>
+                <th>Producción</th>
+                <th>Credenciales</th>
+                <th>Live</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Comercio</td>
+                <td><span class="cell-title">Crea cuenta</span>Valida correo con OTP.</td>
+                <td><span class="cell-title">Completa solicitud</span>Carga documentos y acepta autorizaciones.</td>
+                <td><span class="cell-title">Espera / corrige</span>Subsanaciones si Riesgo lo solicita.</td>
+                <td><span class="cell-title">Firma NDA</span>Solo si el producto lo requiere.</td>
+                <td><span class="cell-title">Acepta oferta</span>Revisa tarifas, costos y condiciones.</td>
+                <td><span class="cell-title">Integra</span>Usa documentación, credenciales QA, RSA y tickets.</td>
+                <td><span class="cell-title">Firma contrato</span>Contrato basado en la oferta aceptada.</td>
+                <td><span class="cell-title">Espera activación</span>Atiende solicitudes finales si aplica.</td>
+                <td><span class="cell-title">Accede seguro</span>OTP/MFA y aceptación de custodia.</td>
+                <td><span class="cell-title ok">Opera</span>Producto activo.</td>
+              </tr>
+              <tr>
+                <td>Portal</td>
+                <td>Login, OTP y creación de solicitud.</td>
+                <td>Formulario guiado, expediente y checklist documental.</td>
+                <td>Estados, observaciones y bloqueo si aplica.</td>
+                <td>Gestión de firma y evidencia.</td>
+                <td>Visualización y aceptación versionada.</td>
+                <td>Centro técnico y Caso de Integración.</td>
+                <td>Gestión de firma o carga controlada.</td>
+                <td>Checklist productivo por producto.</td>
+                <td>Entrega cifrada y auditada.</td>
+                <td>Estado final y productos activos.</td>
+              </tr>
+              <tr>
+                <td>Comercial</td>
+                <td>Asocia o confirma asesor.</td>
+                <td>Da seguimiento al avance.</td>
+                <td>Consulta estado, no aprueba riesgo.</td>
+                <td>Hace seguimiento al NDA.</td>
+                <td><span class="cell-title">Parametriza tarifas</span>Genera o habilita Oferta de Valor.</td>
+                <td>Consulta avance y escala bloqueos.</td>
+                <td>Envía tarifas para contrato.</td>
+                <td>Consulta estado de activación.</td>
+                <td>No ve secretos productivos.</td>
+                <td>Acompaña cuenta Live.</td>
+              </tr>
+              <tr>
+                <td>Riesgo / Cumplimiento</td>
+                <td>Sin acción principal.</td>
+                <td>Consulta expediente si aplica.</td>
+                <td><span class="cell-title">Decide avance</span>Aprueba, condiciona, solicita corrección o rechaza.</td>
+                <td>Valida si el NDA es condición de avance.</td>
+                <td>No parametriza tarifas.</td>
+                <td>No aprueba pruebas técnicas.</td>
+                <td>Puede requerir condiciones si aplica.</td>
+                <td>Puede solicitar bloqueo/revocación por riesgo.</td>
+                <td>No accede a secretos.</td>
+                <td>Visibilidad de estado.</td>
+              </tr>
+              <tr>
+                <td>Integraciones</td>
+                <td>Sin acción principal.</td>
+                <td>Sin acción formal hasta cumplir precondiciones.</td>
+                <td>Espera due diligence aprobado.</td>
+                <td>Valida NDA antes de info sensible.</td>
+                <td>Espera Oferta aceptada si aplica.</td>
+                <td><span class="cell-title">Gestiona QA</span>Docs, RSA, credenciales QA, pruebas y tickets.</td>
+                <td>Confirma condiciones técnicas para contrato si aplica.</td>
+                <td><span class="cell-title">Configura producción</span>Registra checklist, evidencias y tareas asistidas.</td>
+                <td>Genera/envía credenciales a bóveda.</td>
+                <td>Marca activación técnica completada.</td>
+              </tr>
+              <tr>
+                <td>Automatización / Auditoría</td>
+                <td>Registra usuario, correo e IP.</td>
+                <td>Guarda expediente, documentos y versiones.</td>
+                <td>Registra decisión, motivo y responsable.</td>
+                <td>Conserva documento, certificado y eventos de firma.</td>
+                <td>Versiona tarifas y aceptación.</td>
+                <td>Traza accesos, tickets, pruebas y evidencias.</td>
+                <td>Histórico contractual.</td>
+                <td>Checklist productivo y evidencias.</td>
+                <td>Audita generación, cifrado, descarga y revocación.</td>
+                <td>Registra fecha de Live.</td>
+              </tr>
+              <tr>
+                <td>Regla de avance</td>
+                <td>Sin OTP, no inicia.</td>
+                <td>Sin expediente completo, no se envía a revisión.</td>
+                <td class="rule">Sin due diligence aprobado, no avanza.</td>
+                <td class="rule">Sin NDA válido, no hay documentación sensible.</td>
+                <td class="rule">Sin oferta aceptada, no hay QA si aplica.</td>
+                <td class="rule">Sin pruebas aprobadas, no se libera producción si el producto las exige.</td>
+                <td class="rule">Sin contrato firmado, no hay credenciales productivas.</td>
+                <td class="rule">Sin checklist completo, no se activa producción.</td>
+                <td class="rule">Nunca por correo, chat, Drive o Excel.</td>
+                <td class="ok">Producto Live / Cliente Live.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="note-bar">
+        <strong>Lectura ejecutiva:</strong> el portal convierte un proceso manual y disperso en un flujo controlado donde cada avance depende de una regla clara, un responsable definido y una evidencia auditable.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
