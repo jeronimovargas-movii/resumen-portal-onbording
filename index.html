@@ -1,665 +1,593 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal de Onboarding MOVii | Resumen, Flujo y Blueprint</title>
-  <style>
-    :root {
-      --blue-950: #082146;
-      --blue-900: #0b2f63;
-      --blue-800: #123f7a;
-      --blue-700: #1857a8;
-      --blue-100: #eaf3ff;
-      --blue-050: #f5f9ff;
-      --green-700: #08784f;
-      --green-100: #e7f7ef;
-      --amber-700: #9a5b00;
-      --amber-100: #fff4d8;
-      --red-700: #b42318;
-      --red-100: #fee4e2;
-      --gray-900: #111827;
-      --gray-700: #374151;
-      --gray-500: #667085;
-      --gray-300: #d0d5dd;
-      --gray-200: #eaecf0;
-      --gray-100: #f2f4f7;
-      --white: #ffffff;
-      --shadow: 0 18px 45px rgba(8, 33, 70, 0.10);
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--gray-900);
-      background: linear-gradient(180deg, #f7fbff 0%, #ffffff 42%, #f8fafc 100%);
-      line-height: 1.45;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 14px 28px;
-      background: rgba(255, 255, 255, 0.92);
-      border-bottom: 1px solid var(--gray-200);
-      backdrop-filter: blur(12px);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 220px;
-      font-weight: 800;
-      color: var(--blue-950);
-      letter-spacing: -0.02em;
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: var(--blue-900);
-      color: white;
-      font-size: 16px;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .nav a {
-      padding: 8px 12px;
-      border-radius: 999px;
-      color: var(--blue-900);
-      font-size: 13px;
-      font-weight: 700;
-      background: var(--blue-050);
-      border: 1px solid #dbeafe;
-    }
-
-    .nav a:hover { background: var(--blue-100); }
-
-    main {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 36px 0 70px;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      border-radius: 28px;
-      padding: 40px;
-      color: white;
-      background:
-        radial-gradient(circle at 85% 20%, rgba(42, 191, 140, 0.34), transparent 30%),
-        linear-gradient(135deg, var(--blue-950) 0%, var(--blue-800) 58%, #0f766e 100%);
-      box-shadow: var(--shadow);
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      right: -70px;
-      bottom: -110px;
-      width: 290px;
-      height: 290px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.10);
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.13);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    h1, h2, h3 { margin: 0; letter-spacing: -0.03em; }
-
-    h1 {
-      max-width: 900px;
-      font-size: clamp(32px, 5vw, 56px);
-      line-height: 1.02;
-    }
-
-    .hero p {
-      max-width: 780px;
-      margin: 18px 0 0;
-      font-size: clamp(16px, 2vw, 19px);
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    section { scroll-margin-top: 92px; margin-top: 32px; }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 18px;
-      margin-bottom: 16px;
-    }
-
-    .section-title { color: var(--blue-950); font-size: clamp(24px, 3vw, 34px); }
-
-    .section-note {
-      max-width: 520px;
-      color: var(--gray-500);
-      font-size: 14px;
-      margin: 8px 0 0;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      min-height: 150px;
-      padding: 22px;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      background: var(--white);
-      box-shadow: 0 12px 28px rgba(8, 33, 70, 0.06);
-    }
-
-    .card-icon {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      background: var(--blue-100);
-      color: var(--blue-900);
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    .card h3 { color: var(--blue-950); font-size: 18px; margin-bottom: 8px; }
-    .card p { margin: 0; color: var(--gray-700); font-size: 14px; }
-
-    .principle {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 16px;
-    }
-
-    .principle-box {
-      padding: 24px;
-      border-radius: var(--radius-lg);
-      border: 1px solid #bfdbfe;
-      background: linear-gradient(180deg, #ffffff 0%, var(--blue-050) 100%);
-    }
-
-    .principle-box strong { color: var(--blue-950); font-size: 18px; }
-    .principle-box p { margin: 8px 0 0; color: var(--gray-700); }
-
-    .status-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .badge.pending { color: var(--amber-700); background: var(--amber-100); }
-    .badge.review { color: var(--blue-900); background: var(--blue-100); }
-    .badge.blocked { color: var(--red-700); background: var(--red-100); }
-    .badge.ready { color: var(--green-700); background: var(--green-100); }
-    .badge.live { color: #065f46; background: #d1fae5; }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 14px;
-      counter-reset: step;
-    }
-
-    .step {
-      position: relative;
-      min-height: 195px;
-      padding: 18px;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      background: white;
-      box-shadow: 0 10px 24px rgba(8, 33, 70, 0.06);
-    }
-
-    .step::before {
-      counter-increment: step;
-      content: counter(step);
-      display: inline-grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      margin-bottom: 12px;
-      color: white;
-      background: var(--blue-900);
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .step h3 { font-size: 16px; color: var(--blue-950); margin-bottom: 8px; }
-    .step p { margin: 0; color: var(--gray-700); font-size: 13px; }
-    .step small { display: block; margin-top: 10px; color: var(--gray-500); font-size: 12px; }
-
-    .step.live-step {
-      border-color: #a7f3d0;
-      background: linear-gradient(180deg, #ffffff 0%, #ecfdf3 100%);
-    }
-
-    .blueprint-wrap {
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      background: white;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .blueprint-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--gray-200);
-      background: var(--blue-050);
-    }
-
-    .blueprint-toolbar strong { color: var(--blue-950); }
-    .blueprint-toolbar span { color: var(--gray-500); font-size: 13px; }
-
-    .table-scroll { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      min-width: 1180px;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 13px;
-    }
-
-    th, td {
-      vertical-align: top;
-      padding: 14px 12px;
-      border-right: 1px solid var(--gray-200);
-      border-bottom: 1px solid var(--gray-200);
-      background: white;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      color: white;
-      background: var(--blue-900);
-      font-size: 12px;
-      text-align: left;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    th:first-child, td:first-child {
-      position: sticky;
-      left: 0;
-      z-index: 3;
-      width: 170px;
-      min-width: 170px;
-      font-weight: 800;
-      color: var(--blue-950);
-      background: #f8fbff;
-      box-shadow: 6px 0 12px rgba(8, 33, 70, 0.05);
-    }
-
-    th:first-child { z-index: 4; background: var(--blue-950); color: white; }
-
-    td { color: var(--gray-700); }
-
-    .cell-title {
-      display: block;
-      color: var(--blue-950);
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .rule { color: var(--red-700); font-weight: 700; }
-    .ok { color: var(--green-700); font-weight: 700; }
-
-    .note-bar {
-      margin-top: 16px;
-      padding: 16px 18px;
-      border-radius: var(--radius-md);
-      background: #ffffff;
-      border: 1px solid var(--gray-200);
-      color: var(--gray-700);
-      font-size: 14px;
-    }
-
-    .note-bar strong { color: var(--blue-950); }
-
-    @media (max-width: 980px) {
-      .topbar { align-items: flex-start; flex-direction: column; padding: 14px 18px; }
-      .nav { justify-content: flex-start; }
-      .hero { padding: 30px 22px; }
-      .card-grid { grid-template-columns: 1fr; }
-      .principle { grid-template-columns: 1fr; }
-      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .section-head { display: block; }
-    }
-
-    @media (max-width: 620px) {
-      main { width: min(100% - 20px, 1180px); padding-top: 20px; }
-      .flow { grid-template-columns: 1fr; }
-      .step { min-height: unset; }
-      .blueprint-toolbar { align-items: flex-start; flex-direction: column; }
-    }
-
-    @media print {
-      .topbar { position: static; }
-      body { background: white; }
-      section { break-inside: avoid; }
-      .blueprint-wrap { box-shadow: none; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Onboarding MOVii | Vista Ejecutiva y Proyecto 360</title>
+<style>
+:root{
+  --navy:#082954;--navy2:#0e3d77;--blue:#1b65c1;--blue2:#2c7be5;
+  --sky:#eaf3ff;--sky2:#f7faff;--green:#0b7a59;--green-bg:#eaf8f1;
+  --amber:#995d00;--amber-bg:#fff5d9;--red:#b42318;--red-bg:#feeceb;
+  --ink:#172033;--muted:#667085;--line:#dfe6ef;--white:#fff;
+  --shadow:0 18px 44px rgba(8,41,84,.10);--radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:#f4f7fb;color:var(--ink);line-height:1.48}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.topbar{
+  position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:12px 24px;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)
+}
+.brand{display:flex;align-items:center;gap:10px;color:var(--navy);font-weight:900}
+.brand-mark{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--navy);color:white}
+.switch{display:flex;gap:5px;padding:5px;border:1px solid var(--line);border-radius:999px;background:#eef3f9}
+.switch button{border:0;background:transparent;color:var(--navy);font-weight:850;padding:8px 15px;border-radius:999px;cursor:pointer}
+.switch button.active{background:white;box-shadow:0 5px 16px rgba(8,41,84,.13)}
+main{width:min(1280px,calc(100% - 28px));margin:0 auto;padding:28px 0 70px}
+.view{display:none}.view.active{display:block}
+.hero{
+  position:relative;overflow:hidden;padding:42px;border-radius:28px;color:white;box-shadow:var(--shadow);
+  background:radial-gradient(circle at 85% 15%,rgba(54,213,161,.32),transparent 28%),linear-gradient(135deg,#061d3e 0%,#0f427f 62%,#0d766d 100%)
+}
+.hero:after{content:"";position:absolute;right:-75px;bottom:-120px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.08)}
+.eyebrow{display:inline-flex;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);font-size:13px;font-weight:850}
+h1{margin:16px 0 12px;font-size:clamp(34px,5vw,58px);line-height:1.03;letter-spacing:-.045em;max-width:980px}
+.hero p{margin:0;max-width:870px;color:rgba(255,255,255,.88);font-size:18px}
+.hero-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.hero-links a{padding:8px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.1);font-size:13px;font-weight:800}
+section{margin-top:30px;scroll-margin-top:88px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:15px}
+.section-head h2{margin:0;color:var(--navy);font-size:clamp(25px,3vw,36px);letter-spacing:-.035em}
+.section-head p{margin:5px 0 0;color:var(--muted);max-width:760px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:21px;box-shadow:0 10px 25px rgba(8,41,84,.06)}
+.card h3{margin:0 0 8px;color:var(--navy);font-size:18px}.card p{margin:0;color:#44536a}
+.metric{font-size:28px;font-weight:900;color:var(--blue);margin-bottom:3px}
+.callout{padding:18px 20px;border:1px solid #bfd8f5;border-radius:18px;background:linear-gradient(180deg,#fff,#f4f9ff)}
+.callout strong{color:var(--navy)}
+.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.scope-in{border-top:4px solid var(--green)}.scope-out{border-top:4px solid var(--red)}
+.compact{margin:10px 0 0;padding-left:18px;color:#44536a}.compact li{margin:5px 0}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:12px;overflow-x:auto;padding:2px 1px 12px}
+.step{min-height:195px;padding:17px;border:1px solid var(--line);border-radius:18px;background:white;box-shadow:0 9px 22px rgba(8,41,84,.06)}
+.step .num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:white;font-weight:900;margin-bottom:11px}
+.step h3{margin:0 0 7px;color:var(--navy);font-size:16px}.step p{margin:0;color:#4c5b70;font-size:13px}.step small{display:block;margin-top:10px;color:var(--muted)}
+.step.gate{border-color:#f3c96a;background:#fffaf0}.step.live{border-color:#86d6b6;background:#f1fcf7}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.badge{padding:6px 9px;border-radius:999px;font-size:12px;font-weight:850}
+.b-blue{background:var(--sky);color:var(--navy)}.b-green{background:var(--green-bg);color:var(--green)}
+.b-amber{background:var(--amber-bg);color:var(--amber)}.b-red{background:var(--red-bg);color:var(--red)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:20px;background:white;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:1120px;font-size:13px}
+th,td{padding:13px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;z-index:2;text-align:left;background:var(--navy);color:white;font-size:12px;text-transform:uppercase;letter-spacing:.035em}
+th:first-child,td:first-child{position:sticky;left:0;z-index:3;min-width:170px;font-weight:850;background:#f7faff;color:var(--navy)}
+th:first-child{background:#061d3e;color:white;z-index:4}
+.rule{color:var(--red);font-weight:750}.ok{color:var(--green);font-weight:750}.center{text-align:center}
+.yes{color:var(--green);font-weight:900}.no{color:#98a2b3}.limited{color:var(--amber);font-weight:800}
+.subnav{position:sticky;top:62px;z-index:60;display:flex;gap:7px;overflow:auto;padding:10px 0;background:rgba(244,247,251,.94);backdrop-filter:blur(10px)}
+.subnav a{white-space:nowrap;padding:8px 11px;border-radius:999px;background:white;border:1px solid var(--line);color:var(--navy);font-size:12px;font-weight:850}
+.pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.pillar{padding:18px;border:1px solid var(--line);border-radius:18px;background:white}
+.pillar h3{margin:0 0 8px;color:var(--navy);font-size:16px}.pillar p{margin:0;color:#4c5b70;font-size:13px}
+.model-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.model-card{padding:20px;border:1px solid var(--line);border-radius:18px;background:white}
+.model-card h3{margin:0 0 8px;color:var(--navy);font-size:17px}.model-card p{margin:0;color:#4c5b70}
+.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.product-card{position:relative;padding:19px;border:1px solid var(--line);border-radius:18px;background:white}
+.product-index{font-size:12px;font-weight:900;color:var(--blue);margin-bottom:8px}.product-card h3{margin:0 0 7px;color:var(--navy);font-size:17px}.product-card p{margin:0;color:#4c5b70;font-size:13px}
+.req-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.search{flex:1;min-width:230px;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:white}
+.req-section{background:white;border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.req-section summary{cursor:pointer;list-style:none;padding:15px 18px;font-weight:850;color:var(--navy);display:flex;justify-content:space-between;gap:12px}
+.req-section summary::-webkit-details-marker{display:none}.req-section summary span{font-size:12px;color:var(--muted);font-weight:700}
+.req-content{padding:0 20px 18px;border-top:1px solid var(--line)}.req-content h4{color:var(--navy);font-size:16px;margin:18px 0 8px}
+.req-content h5{color:var(--blue);font-size:14px;margin:14px 0 6px}.req-content p,.req-content li{color:#46576d;font-size:13px}.req-content ul{padding-left:19px}
+.footer{margin-top:36px;text-align:center;color:var(--muted);font-size:13px}
+@media(max-width:1000px){.grid3,.grid2,.scope-grid,.pillars,.model-grid,.product-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.subnav{top:104px}.hero{padding:30px 23px}}
+@media(max-width:650px){main{width:min(100% - 18px,1280px)}.hero{border-radius:20px}.switch{width:100%}.switch button{flex:1}.section-head{display:block}}
+@media print{.topbar,.subnav,.req-tools{display:none}.view{display:block!important}main{width:100%;padding:0}.hero,.card,.table-wrap{box-shadow:none}section{break-inside:avoid}}
+</style>
 </head>
 <body>
-  <header class="topbar" aria-label="Navegación principal">
-    <a class="brand" href="#inicio" aria-label="Ir al inicio">
-      <span class="brand-mark">M</span>
-      <span>Onboarding Comercios MOVii</span>
-    </a>
-    <nav class="nav" aria-label="Secciones">
-      <a href="#resumen">Resumen</a>
-      <a href="#flujo">Flujo</a>
-      <a href="#blueprint">Service Blueprint</a>
-    </nav>
-  </header>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">M</span><span>Onboarding Comercios MOVii</span></div>
+  <div class="switch" role="tablist">
+    <button class="active" data-view="resumen">Resumen</button>
+    <button data-view="completo">Proyecto completo</button>
+  </div>
+</header>
 
-  <main id="inicio">
-    <section class="hero" aria-labelledby="titulo-principal">
-      <div class="eyebrow">Versión ejecutiva. </div>
-      <h1 id="titulo-principal">Portal de Onboarding y Autogestión de Comercios Directos MOVii</h1>
-      <p>Una plataforma para centralizar la vinculación del comercio, controlar reglas de avance y llevar cada solicitud hasta <strong>Producto Live / Cliente Live</strong> con trazabilidad.</p>
-    </section>
+<main>
+<section id="view-resumen" class="view active">
+  <div class="hero">
+    <span class="eyebrow">Vista ejecutiva definitiva</span>
+    <h1>Portal de Onboarding y Autogestión de Comercios Directos MOVii</h1>
+    <p>Una plataforma para centralizar la vinculación, controlar reglas de avance y llevar cada solicitud hasta <strong>Producto Live / Cliente Live</strong>.</p>
+    <div class="hero-links">
+      <a href="#r-resumen">Resumen</a><a href="#r-flujo">Happy path</a><a href="#r-blueprint">Service Blueprint</a><a href="#r-roles">Roles</a>
+    </div>
+  </div>
 
-    <section id="resumen" aria-labelledby="titulo-resumen">
-      <div class="section-head">
-        <div>
-          <h2 id="titulo-resumen" class="section-title">Resumen ejecutivo</h2>
-          <p class="section-note">Qué busca resolver el portal y cuál es el resultado esperado.</p>
-        </div>
-      </div>
+  <section id="r-resumen">
+    <div class="section-head"><div><h2>Resumen ejecutivo</h2><p>Qué problema resuelve el portal, cómo opera y qué resultado entrega.</p></div></div>
+    <div class="grid3">
+      <article class="card"><div class="metric">01</div><h3>Problema actual</h3><p>Correos, chats, Drive, Pipedrive, validaciones manuales, evidencias dispersas y baja visibilidad por producto.</p></article>
+      <article class="card"><div class="metric">02</div><h3>Solución propuesta</h3><p>Un orquestador de estados, tareas, bloqueos, responsables, SLA, evidencias y reglas de avance.</p></article>
+      <article class="card"><div class="metric">03</div><h3>Resultado esperado</h3><p>Menor Time-to-Connect y un flujo controlado que termina en Producto Live o Cliente Live.</p></article>
+    </div>
+    <div class="grid2" style="margin-top:15px">
+      <div class="callout"><strong>Principio rector:</strong> el comercio avanza solo cuando cumple condiciones regulatorias, comerciales, contractuales, técnicas, operativas y de seguridad.</div>
+      <div class="callout"><strong>Regla crítica:</strong> el NDA con validez jurídica debe estar aprobado antes de enviar el expediente a KYC/KYB e iniciar due diligence.</div>
+    </div>
+    <div class="scope-grid" style="margin-top:15px">
+      <article class="card scope-in"><h3>Incluido en el MVP</h3><ul class="compact"><li>Onboarding y expediente maestro.</li><li>NDA, KYC/KYB y due diligence.</li><li>Oferta de Valor, integración, contrato y configuración.</li><li>Credenciales productivas seguras y estado Live.</li><li>Nueve productos autorizados.</li></ul></article>
+      <article class="card scope-out"><h3>Fuera del MVP</h3><ul class="compact"><li>Saldos y movimientos.</li><li>Transferencias y autorizaciones financieras.</li><li>Beneficiarios, conciliación y límites.</li><li>Ejecución operativa de dispersiones.</li><li>Productos distintos al catálogo autorizado.</li></ul></article>
+    </div>
+  </section>
 
-      <div class="card-grid">
-        <article class="card">
-          <div class="card-icon">1</div>
-          <h3>Problema actual</h3>
-          <p>El onboarding depende de correos, chats, Drive, Pipedrive, validaciones manuales y entrega dispersa de información técnica.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">2</div>
-          <h3>Solución propuesta</h3>
-          <p>Un portal que orquesta estados, tareas, bloqueos, evidencias, aprobaciones y responsabilidades por rol.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon">3</div>
-          <h3>Resultado esperado</h3>
-          <p>El comercio avanza de forma guiada hasta quedar en <strong>Producto Live</strong> y, si tiene al menos un producto activo, en <strong>Cliente Live</strong>.</p>
-        </article>
-      </div>
+  <section id="r-flujo">
+    <div class="section-head"><div><h2>Happy path actualizado</h2><p>Mismos pasos del flujo aprobado, en el nuevo orden definido por el requerimiento.</p></div></div>
+    <div class="flow">
+      <article class="step"><div class="num">1</div><h3>Registro y OTP</h3><p>El comercio crea su acceso y valida el correo.</p><small>Habilita el formulario.</small></article>
+      <article class="step"><div class="num">2</div><h3>Formulario y productos</h3><p>Completa información, selecciona productos y declara ingresos.</p><small>Se crea la solicitud.</small></article>
+      <article class="step"><div class="num">3</div><h3>Documentos y autorizaciones</h3><p>Carga documentos, acepta autorizaciones y completa el expediente.</p><small>Expediente listo para firma.</small></article>
+      <article class="step gate"><div class="num">4</div><h3>NDA</h3><p>Firma con validez jurídica y validación de evidencia.</p><small>Sin aprobación no hay KYC/KYB.</small></article>
+      <article class="step"><div class="num">5</div><h3>KYC/KYB y due diligence</h3><p>El agente procesa y Riesgo aprueba, condiciona, devuelve o rechaza.</p><small>Decide el avance.</small></article>
+      <article class="step"><div class="num">6</div><h3>Tarifa y Oferta de Valor</h3><p>Comercial parametriza y el comercio acepta condiciones por producto.</p><small>Habilita integración y contrato.</small></article>
+      <article class="step"><div class="num">7</div><h3>Integración y QA</h3><p>Documentación, RSA, credenciales QA, pruebas, tickets y sesiones.</p><small>Según reglas del producto.</small></article>
+      <article class="step"><div class="num">8</div><h3>Contrato y configuración</h3><p>Se firma el contrato y MOVii completa el checklist productivo.</p><small>Incluye dependencias internas y externas.</small></article>
+      <article class="step"><div class="num">9</div><h3>Credenciales productivas</h3><p>Bóveda, cifrado, MFA, descarga única y auditoría.</p><small>Nunca por canales informales.</small></article>
+      <article class="step live"><div class="num">10</div><h3>Producto Live</h3><p>El producto queda activo. Con al menos uno activo, el comercio queda Cliente Live.</p><small>Fin del happy path.</small></article>
+    </div>
+  </section>
 
-      <div class="principle">
-        <div class="principle-box">
-          <strong>Principio rector</strong>
-          <p>El comercio avanza solo si cumple reglas regulatorias, comerciales, contractuales, técnicas, operativas y de seguridad.</p>
-        </div>
-        <div class="principle-box">
-          <strong>Cuando no cumple</strong>
-          <p>El portal bloquea el avance, muestra el motivo y asigna la tarea al responsable: Comercio, Comercial, Riesgo o Integraciones.</p>
-          <div class="status-row" aria-label="Estados clave">
-            <span class="badge pending">Pendiente</span>
-            <span class="badge review">En revisión</span>
-            <span class="badge blocked">Bloqueado</span>
-            <span class="badge ready">Listo para producción</span>
-            <span class="badge live">Live</span>
-          </div>
-        </div>
-      </div>
-    </section>
+  <section id="r-blueprint">
+    <div class="section-head"><div><h2>Service Blueprint ejecutivo</h2><p>Lectura compacta de la experiencia del comercio y la operación interna.</p></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Actor / capa</th><th>Registro</th><th>Expediente</th><th>NDA</th><th>Riesgo</th><th>Oferta</th><th>QA</th><th>Contrato y configuración</th><th>Credenciales</th><th>Live</th></tr></thead>
+        <tbody>
+          <tr><td>Comercio</td><td>Valida OTP.</td><td>Diligencia, selecciona productos, carga y acepta.</td><td>Firma jurídicamente.</td><td>Corrige si aplica.</td><td>Revisa y acepta.</td><td>Integra, prueba y crea tickets.</td><td>Firma contrato y atiende pendientes.</td><td>Accede con MFA.</td><td class="ok">Opera el producto.</td></tr>
+          <tr><td>Portal</td><td>Autentica y crea solicitud.</td><td>Construye expediente y solicitudes por producto.</td><td>Orquesta firma, evidencia y aprobación.</td><td>Envía a KYC/KYB y registra decisión.</td><td>Versiona tarifa y aceptación.</td><td>Habilita centro técnico.</td><td>Controla checklist y tareas.</td><td>Cifra, entrega y audita.</td><td>Muestra productos activos.</td></tr>
+          <tr><td>Comercial</td><td>Asocia comercio.</td><td>Da seguimiento.</td><td>Consulta estado.</td><td>No decide.</td><td>Parametriza y genera oferta.</td><td>Escala bloqueos.</td><td>Alimenta condiciones contractuales.</td><td>No ve secretos.</td><td>Acompaña la cuenta.</td></tr>
+          <tr><td>Riesgo</td><td>Sin acción principal.</td><td>Consulta expediente.</td><td>Verifica aprobación previa.</td><td>Aprueba, condiciona o rechaza.</td><td>No parametriza.</td><td>No aprueba pruebas.</td><td>Puede solicitar bloqueos.</td><td>No ve secretos.</td><td>Consulta estado.</td></tr>
+          <tr><td>Integraciones</td><td>Sin acción formal.</td><td>Espera precondiciones.</td><td>No puede saltarlo.</td><td>Espera aprobación.</td><td>Espera aceptación.</td><td>Gestiona docs, RSA, QA, pruebas y tickets.</td><td>Configura y registra evidencias.</td><td>Genera y envía a bóveda.</td><td>Marca activación técnica.</td></tr>
+          <tr><td>Regla de avance</td><td class="rule">Sin OTP, no inicia.</td><td class="rule">Sin expediente completo, no firma NDA.</td><td class="rule">Sin NDA aprobado, no hay KYC/KYB.</td><td class="rule">Sin due diligence, no hay oferta final.</td><td class="rule">Sin aceptación, no hay integración formal.</td><td class="rule">Sin pruebas, no hay producción cuando apliquen.</td><td class="rule">Sin contrato y checklist, no hay credenciales.</td><td class="rule">Solo por flujo seguro.</td><td class="ok">Producto Live.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-    <section id="flujo" aria-labelledby="titulo-flujo">
-      <div class="section-head">
-        <div>
-          <h2 id="titulo-flujo" class="section-title">Flujo resumido hasta Live</h2>
-          <p class="section-note">Vista clara del happy path, consolidada en pasos ejecutivos.</p>
-        </div>
-      </div>
+  <section id="r-roles">
+    <div class="section-head"><div><h2>Matriz ejecutiva de roles</h2><p>Responsabilidad principal y límites de decisión.</p></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rol</th><th>Gestiona expediente</th><th>Firma / valida NDA</th><th>Aprueba riesgo</th><th>Parametriza tarifa</th><th>Gestiona QA</th><th>Configura producción</th><th>Accede a secretos</th><th>Marca Live</th></tr></thead>
+        <tbody>
+          <tr><td>Comercio</td><td class="center yes">●</td><td class="center limited">Firma</td><td class="center no">—</td><td class="center no">—</td><td class="center limited">Prueba</td><td class="center no">—</td><td class="center limited">Solo propios</td><td class="center no">—</td></tr>
+          <tr><td>Comercial</td><td class="center limited">Consulta</td><td class="center limited">Consulta</td><td class="center no">—</td><td class="center yes">●</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td></tr>
+          <tr><td>Riesgo / Cumplimiento</td><td class="center yes">●</td><td class="center limited">Consulta</td><td class="center yes">●</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td></tr>
+          <tr><td>Integraciones / Tech</td><td class="center limited">Técnico</td><td class="center limited">Valida estado</td><td class="center no">—</td><td class="center no">—</td><td class="center yes">●</td><td class="center yes">●</td><td class="center limited">Flujo autorizado</td><td class="center yes">●</td></tr>
+          <tr><td>Gerencia / C-Level</td><td class="center limited">Consulta</td><td class="center no">—</td><td class="center no">—</td><td class="center limited">Consulta</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td></tr>
+          <tr><td>Administrador</td><td class="center limited">Configura</td><td class="center limited">Según permiso</td><td class="center no">—</td><td class="center limited">Tarifa base</td><td class="center no">—</td><td class="center no">—</td><td class="center limited">Excepción auditada</td><td class="center no">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
 
-      <div class="flow" aria-label="Flujo principal de onboarding">
-        <article class="step">
-          <h3>Registro y OTP</h3>
-          <p>El comercio crea cuenta y valida su correo.</p>
-          <small>Habilita: inicio del formulario.</small>
-        </article>
-        <article class="step">
-          <h3>Formulario y documentos</h3>
-          <p>Completa datos, selecciona producto, declara ingresos y carga documentos.</p>
-          <small>Habilita: expediente digital.</small>
-        </article>
-        <article class="step">
-          <h3>Autorizaciones y KYC/KYB</h3>
-          <p>Acepta autorizaciones y el portal envía el expediente al agente existente.</p>
-          <small>Habilita: revisión de riesgo.</small>
-        </article>
-        <article class="step">
-          <h3>Due diligence</h3>
-          <p>Riesgo revisa alertas, documentos y beneficiarios finales.</p>
-          <small>Bloquea si hay alerta restrictiva.</small>
-        </article>
-        <article class="step">
-          <h3>NDA si aplica</h3>
-          <p>El comercio firma NDA con evidencia válida antes de recibir información sensible.</p>
-          <small>Habilita: documentación técnica.</small>
-        </article>
-        <article class="step">
-          <h3>Oferta de Valor</h3>
-          <p>Comercial parametriza tarifas y el comercio acepta la oferta.</p>
-          <small>Habilita: QA y base contractual.</small>
-        </article>
-        <article class="step">
-          <h3>Caso de Integración</h3>
-          <p>Integraciones centraliza contacto técnico, documentación, llaves, credenciales QA y tickets.</p>
-          <small>Habilita: pruebas o flujo simplificado.</small>
-        </article>
-        <article class="step">
-          <h3>Pruebas técnicas</h3>
-          <p>El comercio prueba; Integraciones valida o solicita ajustes. Algunos productos pueden omitir esta etapa.</p>
-          <small>Habilita: liberación productiva.</small>
-        </article>
-        <article class="step">
-          <h3>Contrato y producción</h3>
-          <p>Se firma contrato basado en la oferta aceptada y MOVii completa la configuración productiva.</p>
-          <small>Habilita: credenciales productivas.</small>
-        </article>
-        <article class="step live-step">
-          <h3>Credenciales y Live</h3>
-          <p>El comercio recibe credenciales por portal seguro. El producto queda Live.</p>
-          <small>Resultado: Producto Live / Cliente Live.</small>
-        </article>
-      </div>
-    </section>
+<section id="view-completo" class="view">
+  <div class="hero">
+    <span class="eyebrow">Vista 360 del proyecto</span>
+    <h1>Alcance, arquitectura funcional, procesos, roles, productos y seguridad</h1>
+    <p>Una lectura clara y concisa del proyecto completo, complementada con el requerimiento íntegro para consulta.</p>
+  </div>
 
-    <section id="blueprint" aria-labelledby="titulo-blueprint">
-      <div class="section-head">
-        <div>
-          <h2 id="titulo-blueprint" class="section-title">Service Blueprint 360</h2>
-          <p class="section-note">Lectura integral de qué hace el comercio, qué muestra el portal y qué ejecuta MOVii en cada etapa.</p>
-        </div>
-      </div>
+  <nav class="subnav">
+    <a href="#c-vision">Visión</a><a href="#c-modelo">Modelo funcional</a><a href="#c-flujo">Flujo</a>
+    <a href="#c-blueprint">Blueprint</a><a href="#c-roles">Roles</a><a href="#c-productos">Productos</a>
+    <a href="#c-operacion">Operación</a><a href="#c-seguridad">Seguridad</a><a href="#c-kpis">Indicadores</a><a href="#c-req">REQ íntegro</a>
+  </nav>
 
-      <div class="blueprint-wrap">
-        <div class="blueprint-toolbar">
-          <strong>Blueprint compacto del proceso end-to-end</strong>
-          <span>Desplaza horizontalmente para ver todas las etapas.</span>
-        </div>
-        <div class="table-scroll" role="region" aria-label="Tabla Service Blueprint" tabindex="0">
-          <table>
-            <thead>
-              <tr>
-                <th>Vista 360</th>
-                <th>Registro</th>
-                <th>Datos y documentos</th>
-                <th>Due diligence</th>
-                <th>NDA</th>
-                <th>Oferta de Valor</th>
-                <th>Integración QA</th>
-                <th>Contrato</th>
-                <th>Producción</th>
-                <th>Credenciales</th>
-                <th>Live</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Comercio</td>
-                <td><span class="cell-title">Crea cuenta</span>Valida correo con OTP.</td>
-                <td><span class="cell-title">Completa solicitud</span>Carga documentos y acepta autorizaciones.</td>
-                <td><span class="cell-title">Espera / corrige</span>Subsanaciones si Riesgo lo solicita.</td>
-                <td><span class="cell-title">Firma NDA</span>Solo si el producto lo requiere.</td>
-                <td><span class="cell-title">Acepta oferta</span>Revisa tarifas, costos y condiciones.</td>
-                <td><span class="cell-title">Integra</span>Usa documentación, credenciales QA, RSA y tickets.</td>
-                <td><span class="cell-title">Firma contrato</span>Contrato basado en la oferta aceptada.</td>
-                <td><span class="cell-title">Espera activación</span>Atiende solicitudes finales si aplica.</td>
-                <td><span class="cell-title">Accede seguro</span>OTP/MFA y aceptación de custodia.</td>
-                <td><span class="cell-title ok">Opera</span>Producto activo.</td>
-              </tr>
-              <tr>
-                <td>Portal</td>
-                <td>Login, OTP y creación de solicitud.</td>
-                <td>Formulario guiado, expediente y checklist documental.</td>
-                <td>Estados, observaciones y bloqueo si aplica.</td>
-                <td>Gestión de firma y evidencia.</td>
-                <td>Visualización y aceptación versionada.</td>
-                <td>Centro técnico y Caso de Integración.</td>
-                <td>Gestión de firma o carga controlada.</td>
-                <td>Checklist productivo por producto.</td>
-                <td>Entrega cifrada y auditada.</td>
-                <td>Estado final y productos activos.</td>
-              </tr>
-              <tr>
-                <td>Comercial</td>
-                <td>Asocia o confirma asesor.</td>
-                <td>Da seguimiento al avance.</td>
-                <td>Consulta estado, no aprueba riesgo.</td>
-                <td>Hace seguimiento al NDA.</td>
-                <td><span class="cell-title">Parametriza tarifas</span>Genera o habilita Oferta de Valor.</td>
-                <td>Consulta avance y escala bloqueos.</td>
-                <td>Envía tarifas para contrato.</td>
-                <td>Consulta estado de activación.</td>
-                <td>No ve secretos productivos.</td>
-                <td>Acompaña cuenta Live.</td>
-              </tr>
-              <tr>
-                <td>Riesgo / Cumplimiento</td>
-                <td>Sin acción principal.</td>
-                <td>Consulta expediente si aplica.</td>
-                <td><span class="cell-title">Decide avance</span>Aprueba, condiciona, solicita corrección o rechaza.</td>
-                <td>Valida si el NDA es condición de avance.</td>
-                <td>No parametriza tarifas.</td>
-                <td>No aprueba pruebas técnicas.</td>
-                <td>Puede requerir condiciones si aplica.</td>
-                <td>Puede solicitar bloqueo/revocación por riesgo.</td>
-                <td>No accede a secretos.</td>
-                <td>Visibilidad de estado.</td>
-              </tr>
-              <tr>
-                <td>Integraciones</td>
-                <td>Sin acción principal.</td>
-                <td>Sin acción formal hasta cumplir precondiciones.</td>
-                <td>Espera due diligence aprobado.</td>
-                <td>Valida NDA antes de info sensible.</td>
-                <td>Espera Oferta aceptada si aplica.</td>
-                <td><span class="cell-title">Gestiona QA</span>Docs, RSA, credenciales QA, pruebas y tickets.</td>
-                <td>Confirma condiciones técnicas para contrato si aplica.</td>
-                <td><span class="cell-title">Configura producción</span>Registra checklist, evidencias y tareas asistidas.</td>
-                <td>Genera/envía credenciales a bóveda.</td>
-                <td>Marca activación técnica completada.</td>
-              </tr>
-              <tr>
-                <td>Automatización / Auditoría</td>
-                <td>Registra usuario, correo e IP.</td>
-                <td>Guarda expediente, documentos y versiones.</td>
-                <td>Registra decisión, motivo y responsable.</td>
-                <td>Conserva documento, certificado y eventos de firma.</td>
-                <td>Versiona tarifas y aceptación.</td>
-                <td>Traza accesos, tickets, pruebas y evidencias.</td>
-                <td>Histórico contractual.</td>
-                <td>Checklist productivo y evidencias.</td>
-                <td>Audita generación, cifrado, descarga y revocación.</td>
-                <td>Registra fecha de Live.</td>
-              </tr>
-              <tr>
-                <td>Regla de avance</td>
-                <td>Sin OTP, no inicia.</td>
-                <td>Sin expediente completo, no se envía a revisión.</td>
-                <td class="rule">Sin due diligence aprobado, no avanza.</td>
-                <td class="rule">Sin NDA válido, no hay documentación sensible.</td>
-                <td class="rule">Sin oferta aceptada, no hay QA si aplica.</td>
-                <td class="rule">Sin pruebas aprobadas, no se libera producción si el producto las exige.</td>
-                <td class="rule">Sin contrato firmado, no hay credenciales productivas.</td>
-                <td class="rule">Sin checklist completo, no se activa producción.</td>
-                <td class="rule">Nunca por correo, chat, Drive o Excel.</td>
-                <td class="ok">Producto Live / Cliente Live.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <section id="c-vision">
+    <div class="section-head"><div><h2>Visión 360 del proyecto</h2><p>El portal conecta experiencia, decisiones, integración y activación en un único flujo trazable.</p></div></div>
+    <div class="pillars">
+      <article class="pillar"><h3>Experiencia externa</h3><p>Registro, expediente, NDA, oferta, integración, contrato, credenciales y Live.</p></article>
+      <article class="pillar"><h3>Backoffice MOVii</h3><p>Bandejas, decisiones, configuración, evidencias, SLA y auditoría.</p></article>
+      <article class="pillar"><h3>Reglas de avance</h3><p>Las etapas se habilitan únicamente cuando se cumplen las condiciones.</p></article>
+      <article class="pillar"><h3>Gestión por producto</h3><p>Cada producto mantiene tarifa, integración, contrato, checklist, estado e historial independientes.</p></article>
+    </div>
+    <div class="scope-grid" style="margin-top:15px">
+      <article class="card scope-in"><h3>Núcleo del proyecto</h3><p>Vincular, validar, contratar, integrar, configurar y activar productos.</p></article>
+      <article class="card scope-out"><h3>Límite del proyecto</h3><p>No opera fondos, pagos, transferencias, saldos, movimientos ni dispersiones productivas.</p></article>
+    </div>
+  </section>
 
-      <div class="note-bar">
-        <strong>Lectura ejecutiva:</strong> el portal convierte un proceso manual y disperso en un flujo controlado donde cada avance depende de una regla clara, un responsable definido y una evidencia auditable.
-      </div>
-    </section>
-  </main>
+  <section id="c-modelo">
+    <div class="section-head"><div><h2>Modelo funcional</h2><p>Objetos que permiten entender y construir la solución.</p></div></div>
+    <div class="model-grid">
+      <article class="model-card"><h3>Comercio</h3><p>Entidad principal, usuarios autorizados, información general y productos activos.</p></article>
+      <article class="model-card"><h3>Expediente maestro</h3><p>Datos regulatorios, documentos, vigencias, autorizaciones y trazabilidad.</p></article>
+      <article class="model-card"><h3>Solicitud de producto</h3><p>Instancia independiente por cada producto seleccionado.</p></article>
+      <article class="model-card"><h3>Caso de Integración</h3><p>Fuente única de verdad técnica para documentación, RSA, QA, pruebas y tickets.</p></article>
+      <article class="model-card"><h3>Checklist productivo</h3><p>Tareas y evidencias de configuración en sistemas internos y terceros.</p></article>
+      <article class="model-card"><h3>Auditoría transversal</h3><p>Historial de accesos, decisiones, versiones, cambios, entregas y responsables.</p></article>
+    </div>
+  </section>
+
+  <section id="c-flujo">
+    <div class="section-head"><div><h2>Flujo end-to-end y ramas paralelas</h2><p>Secuencia principal y trabajos que se ejecutan después de la aceptación comercial.</p></div></div>
+    <div class="flow">
+      <article class="step"><div class="num">1</div><h3>Acceso</h3><p>Registro, OTP y solicitud.</p></article>
+      <article class="step"><div class="num">2</div><h3>Expediente</h3><p>Datos, productos, ingresos, documentos y autorizaciones.</p></article>
+      <article class="step gate"><div class="num">3</div><h3>NDA</h3><p>Firma jurídica y aprobación obligatoria.</p></article>
+      <article class="step"><div class="num">4</div><h3>Riesgo</h3><p>KYC/KYB, revisión y due diligence.</p></article>
+      <article class="step"><div class="num">5</div><h3>Oferta</h3><p>Tarifas, condiciones y aceptación.</p></article>
+      <article class="step"><div class="num">6</div><h3>Integración</h3><p>Docs, RSA, QA, pruebas y tickets.</p></article>
+      <article class="step"><div class="num">7</div><h3>Contrato</h3><p>Basado en la oferta aceptada.</p></article>
+      <article class="step"><div class="num">8</div><h3>Configuración</h3><p>Checklist, sistemas y evidencias.</p></article>
+      <article class="step"><div class="num">9</div><h3>Credenciales</h3><p>Bóveda, cifrado, MFA y entrega.</p></article>
+      <article class="step live"><div class="num">10</div><h3>Live</h3><p>Producto activo y visible.</p></article>
+    </div>
+    <div class="grid2" style="margin-top:15px">
+      <article class="card"><h3>Rama técnica</h3><ul class="compact"><li>Documentación.</li><li>Contacto técnico.</li><li>RSA.</li><li>Credenciales QA.</li><li>Pruebas.</li><li>Tickets y sesiones.</li></ul></article>
+      <article class="card"><h3>Rama contractual y productiva</h3><ul class="compact"><li>Contrato.</li><li>Checklist por producto.</li><li>GLIC, RS2, PSE, Bre-B, Mahindra y Gateway.</li><li>Dependencias externas.</li><li>Credenciales productivas.</li></ul></article>
+    </div>
+  </section>
+
+  <section id="c-blueprint">
+    <div class="section-head"><div><h2>Service Blueprint 360</h2><p>Frontstage, backstage, sistemas, evidencia y regla de avance por etapa.</p></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Capa</th><th>Acceso</th><th>Expediente</th><th>NDA</th><th>Riesgo</th><th>Oferta</th><th>Integración</th><th>Contrato</th><th>Configuración</th><th>Credenciales</th><th>Live</th></tr></thead>
+        <tbody>
+          <tr><td>Acción del comercio</td><td>Valida OTP.</td><td>Diligencia y carga.</td><td>Firma.</td><td>Corrige si aplica.</td><td>Acepta.</td><td>Integra y prueba.</td><td>Firma.</td><td>Atiende pendientes.</td><td>Accede con MFA.</td><td>Consulta producto activo.</td></tr>
+          <tr><td>Frontstage</td><td>Login.</td><td>Formulario y progreso.</td><td>Módulo de firma.</td><td>Estado y observaciones.</td><td>Vista comercial.</td><td>Centro técnico.</td><td>Vista contractual.</td><td>Seguimiento.</td><td>Descarga segura.</td><td>Dashboard.</td></tr>
+          <tr><td>Backstage</td><td>Usuarios.</td><td>Reglas documentales.</td><td>Validación de evidencia.</td><td>Decisión de Riesgo.</td><td>Parametrización.</td><td>Gestión técnica.</td><td>Generación y validación.</td><td>Configuración interna.</td><td>Bóveda y cifrado.</td><td>Confirmación técnica.</td></tr>
+          <tr><td>Sistemas</td><td>OTP / IAM.</td><td>Repositorio documental.</td><td>Proveedor de firma.</td><td>Agente KYC/KYB.</td><td>Motor de oferta.</td><td>QA, Gateway y tickets.</td><td>Proveedor contractual.</td><td>GLIC, RS2, Mahindra y terceros.</td><td>Vault / KMS.</td><td>Catálogo activo.</td></tr>
+          <tr><td>Evidencia</td><td>Fecha, IP y usuario.</td><td>Versiones y vigencias.</td><td>Certificado y documento.</td><td>Resultado y decisión.</td><td>Versión aceptada.</td><td>Logs y aprobación.</td><td>Contrato firmado.</td><td>Checklist e identificadores.</td><td>Entrega y revocación.</td><td>Fecha de activación.</td></tr>
+          <tr><td>Regla crítica</td><td class="rule">Sin OTP, no inicia.</td><td class="rule">Sin completitud, no avanza.</td><td class="rule">Sin NDA, no KYC/KYB.</td><td class="rule">Sin DD, no oferta final.</td><td class="rule">Sin aceptación, no integración formal.</td><td class="rule">Sin pruebas, no producción cuando apliquen.</td><td class="rule">Sin firma, no credenciales.</td><td class="rule">Sin checklist, no entrega.</td><td class="rule">Solo por canal seguro.</td><td class="ok">Fin del happy path.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="c-roles">
+    <div class="section-head"><div><h2>Roles y separación de responsabilidades</h2><p>Cada rol interviene donde tiene autoridad y no puede saltarse las compuertas del proceso.</p></div></div>
+    <div class="grid3">
+      <article class="card"><h3>Comercio</h3><p>Diligencia, firma, integra, prueba y recibe sus propias credenciales.</p></article>
+      <article class="card"><h3>Comercial</h3><p>Acompaña, parametriza tarifas, genera oferta y escala bloqueos.</p></article>
+      <article class="card"><h3>Riesgo / Cumplimiento</h3><p>Analiza alertas, documentos y beneficiarios; aprueba, condiciona o rechaza.</p></article>
+      <article class="card"><h3>Integraciones / Tech</h3><p>Gestiona documentación, QA, RSA, pruebas, tickets, configuración y activación.</p></article>
+      <article class="card"><h3>Gerencia / C-Level</h3><p>Consulta indicadores, conversión, SLA y cuellos de botella.</p></article>
+      <article class="card"><h3>Administrador</h3><p>Configura productos, documentos, estados, permisos, reglas y auditoría.</p></article>
+    </div>
+  </section>
+
+  <section id="c-productos">
+    <div class="section-head"><div><h2>Catálogo oficial del MVP</h2><p>Son los únicos productos que deben aparecer en formularios, backoffice, contratos, dashboards y reglas.</p></div></div>
+    <div class="product-grid"><article class="product-card"><div class="product-index">01</div><h3>PSE</h3><p>Código de servicio, recaudo, GLIC, Mahindra y Gateway.</p></article>
+<article class="product-card"><div class="product-index">02</div><h3>ACH</h3><p>Canal seguro, estructuras, pruebas y credenciales.</p></article>
+<article class="product-card"><div class="product-index">03</div><h3>QR</h3><p>Sucursales, terminales, identificadores y activación.</p></article>
+<article class="product-card"><div class="product-index">04</div><h3>Tap to Phone</h3><p>Dispositivos, usuarios, adquirencia y seguridad.</p></article>
+<article class="product-card"><div class="product-index">05</div><h3>Botón de Pago</h3><p>URLs, callbacks, RSA, QA y validación de respuestas.</p></article>
+<article class="product-card"><div class="product-index">06</div><h3>Tarjeta</h3><p>MATCH, RS2, GLIC, afiliaciones, terminales y adquirencia.</p></article>
+<article class="product-card"><div class="product-index">07</div><h3>Bre-B</h3><p>Identificadores, QR/alias, recaudo, GLIC y Gateway.</p></article>
+<article class="product-card"><div class="product-index">08</div><h3>MOVii Pay</h3><p>Producto independiente, con tarifa, contrato e integración propios.</p></article>
+<article class="product-card"><div class="product-index">09</div><h3>Dispersión</h3><p>Solo onboarding, integración, configuración y activación; no operación.</p></article></div>
+  </section>
+
+  <section id="c-operacion">
+    <div class="section-head"><div><h2>Operación, excepciones y nueva solicitud</h2><p>Cómo se manejan bloqueos, dependencias y productos adicionales.</p></div></div>
+    <div class="grid3">
+      <article class="card"><h3>Bloqueos</h3><p>Documentales, NDA, Riesgo, comerciales, técnicos, contractuales, productivos, de seguridad o por tercero.</p></article>
+      <article class="card"><h3>Nueva solicitud</h3><p>Reutiliza información solo si está vigente; valida NDA, documentos, riesgo, contrato e integración.</p></article>
+      <article class="card"><h3>Dependencias externas</h3><p>Deben registrar tercero, responsable, fecha, SLA, estado y comunicación al comercio.</p></article>
+    </div>
+  </section>
+
+  <section id="c-seguridad">
+    <div class="section-head"><div><h2>Seguridad transversal</h2><p>Controles para identidad, acceso, información, secretos y salida a producción.</p></div></div>
+    <div class="grid3">
+      <article class="card"><h3>Autenticación</h3><p>OTP de único uso, expiración, límite de intentos, MFA y una sesión activa.</p></article>
+      <article class="card"><h3>Autorización</h3><p>RBAC, mínimo privilegio y validación en backend por comercio, producto y acción.</p></article>
+      <article class="card"><h3>Cifrado</h3><p>TLS, protección de documentos, bóveda de secretos y manejo seguro de RSA.</p></article>
+      <article class="card"><h3>Auditoría</h3><p>Usuario, rol, IP, fecha, acción, producto, ambiente, versiones y cambios.</p></article>
+      <article class="card"><h3>Credenciales</h3><p>Cifrado, MFA, descarga única, revocación, regeneración y custodia.</p></article>
+      <article class="card"><h3>Go-live</h3><p>Pruebas de seguridad y remediación de hallazgos críticos y altos.</p></article>
+    </div>
+  </section>
+
+  <section id="c-kpis">
+    <div class="section-head"><div><h2>Indicadores para gerencia</h2><p>Métricas necesarias para controlar adopción, velocidad, bloqueos y conversión.</p></div></div>
+    <div class="grid3">
+      <article class="card"><h3>Funnel</h3><p>Registrados, solicitudes, aprobaciones, rechazos, productos Live y Clientes Live.</p></article>
+      <article class="card"><h3>Tiempo</h3><p>Time-to-Connect, tiempo por etapa, tiempo por rol y tiempo pendiente por tercero.</p></article>
+      <article class="card"><h3>Bloqueos</h3><p>Casos detenidos, causa, responsable, SLA, reincidencia y antigüedad.</p></article>
+      <article class="card"><h3>Conversión</h3><p>Conversión por producto, segmento, Comercial y etapa.</p></article>
+      <article class="card"><h3>Integración</h3><p>Pruebas, tickets, tiempos de respuesta, sesiones y causas técnicas.</p></article>
+      <article class="card"><h3>Calidad</h3><p>Subsanaciones, documentos vencidos, rechazos, incidentes y regeneraciones.</p></article>
+    </div>
+  </section>
+
+  <section id="c-req">
+    <div class="section-head"><div><h2>Requerimiento funcional íntegro</h2><p>Contenido completo del REQ definitivo, organizado en secciones desplegables.</p></div></div>
+    <div class="req-tools">
+      <input id="req-search" class="search" type="search" placeholder="Buscar: NDA, PSE, Dispersión, seguridad, roles…">
+      <button id="open-all" class="badge b-blue" type="button">Abrir todo</button>
+      <button id="close-all" class="badge b-amber" type="button">Cerrar todo</button>
+    </div>
+    
+    <details class="req-section" open>
+      <summary>Introducción<span>Ver detalle</span></summary>
+      <div class="req-content"><p>Levantamiento de Requerimiento Funcional Final</p><p>Portal de Onboarding y Autogestión de Comercios Directos MOVii</p><ul><li>Diagrama del Portal: https://jeronimovargas-movii.github.io/resumen-portal-onbording/ - Enlace a un sitio HTML que resume el alcance y el proyecto.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>1. Contexto general<span>Ver detalle</span></summary>
+      <div class="req-content"><p>MOVii requiere construir un Portal de Onboarding y Autogestión de Comercios Directos que permita escalar, masificar y acelerar la vinculación de comercios a los productos de pagos incluidos dentro del alcance del MVP.</p><h5>Los únicos productos contemplados son</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li><li>No se deberán mencionar, configurar, ofrecer ni habilitar productos diferentes a los anteriores dentro del MVP.</li></ul><p>Cualquier necesidad relacionada con otros productos no incluidos en el MVP deberá gestionarse como una iniciativa posterior, con un levantamiento funcional, técnico, operativo, comercial, regulatorio y de seguridad independiente.</p><h5>Actualmente, el proceso de conexión de un comercio depende de múltiples actividades manuales y herramientas desconectadas</h5><ul><li>Formularios aislados.</li><li>Correos.</li><li>Carpetas en Drive.</li><li>Notas en Pipedrive.</li><li>Chats internos y externos.</li><li>Validaciones manuales.</li><li>Envío manual de documentación técnica.</li><li>Gestión manual del NDA.</li><li>Gestión manual de contratos.</li><li>Generación manual de credenciales QA.</li><li>Generación manual de credenciales productivas.</li><li>Intercambio manual de llaves RSA.</li><li>Configuración manual en plataformas operativas.</li><li>Solicitudes manuales a Operaciones.</li><li>Validaciones manuales en GLIC.</li><li>Validaciones manuales en RS2.</li><li>Validaciones manuales para PSE.</li><li>Validaciones manuales para Bre-B.</li><li>Validaciones manuales para Tarjeta.</li><li>Validaciones manuales en Mahindra.</li><li>Configuraciones manuales en API Gateway o herramientas equivalentes.</li><li>Entrega de secretos productivos por canales no suficientemente controlados.</li></ul><h5>Este modelo genera</h5><ul><li>Tiempos altos de vinculación.</li><li>Baja trazabilidad.</li><li>Dependencia de personas específicas.</li><li>Dificultad para conocer el estado de cada comercio.</li><li>Riesgos de seguridad en la entrega de credenciales.</li><li>Reprocesos por documentos incompletos o vencidos.</li><li>Falta de visibilidad para Comercial, Riesgo, Integraciones y Gerencia.</li><li>Sobrecarga operativa para los equipos internos.</li><li>Dificultad para separar qué está pendiente por MOVii y qué está pendiente por el comercio.</li><li>Cuellos de botella en Integraciones.</li><li>Ausencia de una vista centralizada por producto.</li><li>Dificultad para controlar la activación de varios productos para un mismo comercio.</li><li>Dificultad para conocer qué configuraciones técnicas y operativas están pendientes.</li><li>Falta de control sobre los accesos a documentación y credenciales.</li><li>Dificultad para medir el tiempo real de vinculación.</li></ul><p>El portal debe transformar este proceso en una plataforma centralizada, segura, trazable y autogestionada, donde el comercio pueda avanzar por un happy path hasta quedar Live.</p><h5>MOVii deberá intervenir cuando exista</h5><ul><li>Un bloqueo.</li><li>Una alerta.</li><li>Una inconsistencia.</li><li>Una excepción.</li><li>Una tarea que no pueda automatizarse.</li><li>Una solicitud técnica levantada por el comercio.</li><li>Una validación regulatoria.</li><li>Una aprobación comercial.</li><li>Una revisión de Riesgo.</li><li>Una configuración productiva pendiente.</li><li>Una dependencia de un tercero.</li><li>Una tarea operativa asistida.</li><li>Una validación de seguridad.</li><li>Una condición particular asociada a uno de los productos.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>2. Objetivo general<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>Desarrollar un Portal de Onboarding y Autogestión de Comercios Directos MOVii que permita al comercio</h5><ul><li>Iniciar su vinculación.</li><li>Completar información regulatoria.</li><li>Cargar documentos.</li><li>Aceptar autorizaciones.</li><li>Firmar el NDA mediante un mecanismo con validez jurídica.</li><li>Pasar por KYC/KYB y due diligence únicamente después de contar con el NDA aprobado.</li><li>Seleccionar uno o varios productos.</li><li>Declarar su nivel de ingresos.</li><li>Visualizar y aceptar una Oferta de Valor.</li><li>Consultar tarifas, costos y condiciones comerciales.</li><li>Acceder a documentación técnica autorizada.</li><li>Gestionar credenciales QA cuando aplique.</li><li>Registrar datos técnicos.</li><li>Gestionar llaves RSA cuando aplique.</li><li>Realizar pruebas cuando aplique.</li><li>Levantar tickets técnicos.</li><li>Consultar respuestas de Integraciones.</li><li>Solicitar una sesión técnica o kickoff.</li><li>Firmar el contrato.</li><li>Completar la configuración productiva.</li><li>Recibir credenciales productivas de forma segura.</li><li>Llegar al estado Producto Live.</li><li>Llegar al estado Cliente Live cuando tenga al menos un producto activo.</li><li>Consultar sus productos activos.</li><li>Solicitar productos adicionales mediante un nuevo flujo posterior al Live.</li><li>El portal debe integrarse con el agente KYC/KYB existente, sin reemplazarlo ni construir un nuevo motor de riesgo desde cero.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>3. Catálogo oficial de productos<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>3.1 Productos incluidos en el MVP</h4><h5>El portal debe permitir que el comercio seleccione uno o varios de los siguientes productos</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li></ul><h4>3.2 Regla de catálogo</h4><h5>Estos son los únicos productos que deben aparecer en</h5><ul><li>El formulario de onboarding.</li><li>El Portal del Comercio.</li><li>El Backoffice MOVii.</li><li>La gestión de tarifas.</li><li>La Oferta de Valor.</li><li>El contrato.</li><li>Los casos de integración.</li><li>Las tareas de configuración.</li><li>Los checklists productivos.</li><li>Las bandejas internas.</li><li>Los dashboards.</li><li>Los reportes.</li><li>Las nuevas solicitudes posteriores al Live.</li><li>Las reglas administrables.</li><li>Los estados por producto.</li><li>Los filtros del portal.</li><li>Las notificaciones.</li><li>La documentación técnica.</li><li>Los tickets técnicos.</li><li>Los paquetes de credenciales.</li><li>La auditoría.</li><li>Los indicadores gerenciales.</li></ul><h4>3.3 Regla de independencia por producto</h4><ul><li>Cada producto debe administrarse de manera independiente.</li></ul><h5>Cada producto seleccionado debe tener, cuando aplique</h5><ul><li>Solicitud de producto.</li><li>Tarifa.</li><li>Oferta de Valor.</li><li>Condiciones comerciales.</li><li>Caso de Integración.</li><li>Documentación técnica.</li><li>Credenciales QA.</li><li>Pruebas.</li><li>Checklist productivo.</li><li>Configuración.</li><li>Contrato o anexo.</li><li>Credenciales productivas.</li><li>Estado de activación.</li><li>Fecha de Live.</li><li>Historial.</li><li>Auditoría.</li><li>Bloqueos.</li><li>Responsables.</li><li>La selección de un producto no debe habilitar automáticamente otro producto.</li><li>MOVii Pay debe tratarse como un producto independiente y no como una categoría que agrupe Tarjeta, PSE o Bre-B.</li></ul><h4>3.4 Otros productos no incluidos en el MVP</h4><ul><li>El portal no debe mostrar nombres de productos diferentes a los definidos.</li></ul><h5>La expresión “otros productos no incluidos en el MVP” podrá utilizarse únicamente para señalar que cualquier necesidad adicional deberá gestionarse mediante</h5><ul><li>Un nuevo levantamiento funcional.</li><li>Una evaluación comercial.</li><li>Una evaluación de Riesgo.</li><li>Una evaluación técnica.</li><li>Una evaluación operativa.</li><li>Una evaluación regulatoria.</li><li>Una evaluación de seguridad.</li><li>Una estimación independiente.</li><li>Una aprobación formal de alcance.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>4. Principio rector del producto<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe operar bajo el siguiente principio</h5><ul><li>El comercio debe poder avanzar de forma autogestionada siempre que cumpla las reglas regulatorias, comerciales, contractuales, técnicas, operativas y de seguridad.</li><li>Si el comercio cumple las condiciones, el portal debe habilitar automáticamente la siguiente etapa.</li></ul><h5>Si el comercio no cumple las condiciones, el portal debe</h5><ul><li>Bloquear el avance.</li><li>Explicar el motivo.</li><li>Identificar el producto afectado.</li><li>Identificar el responsable.</li><li>Crear una tarea.</li><li>Registrar el bloqueo.</li><li>Controlar el SLA.</li><li>Mantener la trazabilidad.</li><li>Mostrar la próxima acción.</li><li>Indicar si el pendiente corresponde a MOVii, al comercio o a un tercero.</li><li>El portal no debe ser únicamente un formulario.</li></ul><h5>Debe funcionar como un orquestador de vinculación, con</h5><ul><li>Estados.</li><li>Reglas de avance.</li><li>Roles.</li><li>Tareas.</li><li>Bandejas.</li><li>Bloqueos.</li><li>Auditoría.</li><li>Alertas.</li><li>Trazabilidad.</li><li>Controles de seguridad.</li><li>Checklists por producto.</li><li>Automatizaciones.</li><li>Tareas asistidas.</li><li>Tickets técnicos.</li><li>Evidencias.</li><li>Indicadores.</li><li>Historial de decisiones.</li><li>SLA.</li><li>Notificaciones.</li><li>Dependencias.</li><li>Control de accesos.</li><li>Gestión de credenciales.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>5. Objetivos específicos<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe permitir</h5><ul><li>Reducir el Time-to-Connect.</li><li>Eliminar reprocesos manuales.</li><li>Centralizar la información del comercio.</li><li>Crear un expediente maestro.</li><li>Separar el comercio, el expediente y las solicitudes de producto.</li><li>Crear una solicitud independiente por cada producto seleccionado.</li><li>Reutilizar información vigente.</li><li>Controlar la entrega de documentación técnica.</li><li>Condicionar el envío a KYC/KYB a la aprobación previa del NDA.</li><li>Condicionar el acceso técnico a la aprobación del due diligence.</li><li>Condicionar el acceso técnico a la aceptación de la Oferta de Valor cuando aplique.</li><li>Permitir que Comercial parametrice tarifas.</li><li>Presentar una Oferta de Valor.</li><li>Usar la Oferta de Valor como base contractual.</li><li>Gestionar varias solicitudes de producto dentro de un mismo comercio.</li><li>Permitir que Integraciones gestione los casos técnicos desde una única vista.</li><li>Permitir que el comercio levante tickets técnicos.</li><li>Permitir que Integraciones responda tickets.</li><li>Permitir que Integraciones coordine sesiones técnicas.</li><li>Automatizar o registrar configuraciones productivas.</li><li>Evitar la entrega de credenciales por correo, chat, Excel o Drive.</li><li>Entregar credenciales productivas mediante un flujo seguro.</li><li>Dar visibilidad a Comercial, Riesgo, Integraciones, Gerencia y Administrador.</li><li>Permitir dashboards de avance, tiempos, bloqueos y conversión.</li><li>Terminar el flujo principal en estado Live.</li><li>Permitir nuevas solicitudes posteriores.</li><li>Validar vigencia documental antes de habilitar un producto adicional.</li><li>Validar la vigencia y cobertura del NDA.</li><li>Validar si el nuevo producto requiere revisión complementaria de Riesgo.</li><li>Mantener fuera del alcance la operación financiera posterior al onboarding.</li><li>Dejar el levantamiento listo para construir backlog.</li><li>Dejar el levantamiento listo para construir historias de usuario.</li><li>Dejar el levantamiento listo para construir casos de uso.</li><li>Dejar el levantamiento listo para definir criterios de aceptación.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>6. Experiencias principales del portal<span>Ver detalle</span></summary>
+      <div class="req-content"><ul><li>El portal tendrá dos experiencias principales.</li></ul><h4>6.1 Portal del Comercio</h4><h5>Es la experiencia externa para que el comercio pueda</h5><ul><li>Registrarse.</li><li>Validar el correo mediante OTP.</li><li>Completar el formulario.</li><li>Guardar y retomar la solicitud.</li><li>Seleccionar uno o varios productos.</li><li>Declarar ingresos mensuales.</li><li>Cargar documentos.</li><li>Aceptar autorizaciones.</li><li>Firmar el NDA.</li><li>Consultar el estado del NDA.</li><li>Continuar a KYC/KYB únicamente cuando el NDA esté aprobado.</li><li>Consultar el estado del due diligence.</li><li>Visualizar la Oferta de Valor.</li><li>Aceptar la Oferta de Valor.</li><li>Consultar condiciones por producto.</li><li>Acceder a documentación técnica.</li><li>Registrar información técnica.</li><li>Gestionar llaves RSA.</li><li>Consultar credenciales QA.</li><li>Realizar pruebas.</li><li>Levantar tickets técnicos.</li><li>Consultar respuestas.</li><li>Responder solicitudes de información.</li><li>Solicitar una sesión técnica.</li><li>Solicitar un kickoff.</li><li>Firmar el contrato.</li><li>Acceder a credenciales productivas.</li><li>Consultar el estado de activación.</li><li>Llegar al estado Live.</li><li>Consultar productos activos.</li><li>Iniciar una nueva solicitud.</li><li>La solicitud de productos adicionales no hace parte del happy path inicial.</li><li>Un comercio que ya tenga productos activos deberá iniciar una nueva solicitud para vincular un producto adicional.</li></ul><h4>6.2 Backoffice MOVii</h4><h5>Es la experiencia interna para que MOVii pueda</h5><ul><li>Hacer seguimiento.</li><li>Consultar expedientes.</li><li>Gestionar el NDA.</li><li>Bloquear KYC/KYB si falta el NDA.</li><li>Gestionar alertas de riesgo.</li><li>Validar información.</li><li>Parametrizar tarifas.</li><li>Generar la Oferta de Valor.</li><li>Habilitar documentación.</li><li>Crear casos de integración.</li><li>Gestionar tickets técnicos.</li><li>Gestionar credenciales QA.</li><li>Revisar pruebas.</li><li>Gestionar llaves RSA.</li><li>Preparar configuraciones productivas.</li><li>Registrar tareas automáticas.</li><li>Registrar tareas manuales.</li><li>Generar credenciales productivas.</li><li>Entregar credenciales de manera segura.</li><li>Marcar productos Live.</li><li>Consultar dashboards.</li><li>Administrar usuarios.</li><li>Administrar roles.</li><li>Administrar productos.</li><li>Administrar reglas.</li><li>Administrar documentos.</li><li>Administrar permisos.</li><li>Auditar acciones críticas.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>7. Alcance del MVP<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El MVP contempla</h5><ul><li>Portal público para comercios.</li><li>Registro con correo.</li><li>Validación OTP.</li><li>Formulario recuperable.</li><li>Información básica.</li><li>Información AML.</li><li>Información de cumplimiento.</li><li>Información de vigilancia y control.</li><li>Selección de productos.</li><li>Segmentación por ingresos.</li><li>Carga documental dinámica.</li><li>Declaración de origen de fondos.</li><li>Tratamiento de datos.</li><li>Autorizaciones regulatorias.</li><li>Captura del asesor comercial.</li><li>Expediente digital.</li><li>Firma y aprobación del NDA.</li><li>Integración con el agente KYC/KYB.</li><li>Gestión de observaciones.</li><li>Gestión de subsanaciones.</li><li>Gestión de rechazos.</li><li>Gestión de banderas restrictivas.</li><li>Backoffice por roles.</li><li>Parametrización comercial.</li><li>Generación de Oferta de Valor.</li><li>Aceptación de Oferta de Valor.</li><li>Acceso controlado a documentación.</li><li>Casos de integración.</li><li>Gestión de llaves RSA.</li><li>Credenciales QA.</li><li>Pruebas técnicas.</li><li>Tickets técnicos.</li><li>Contrato.</li><li>Configuración productiva.</li><li>Tareas operativas.</li><li>Entrega segura de credenciales.</li><li>Producto Live.</li><li>Cliente Live.</li><li>Consulta de productos activos.</li><li>Nuevas solicitudes posteriores.</li><li>Dashboard gerencial.</li><li>Administración de usuarios.</li><li>Administración de roles.</li><li>Administración de permisos.</li><li>Auditoría completa.</li><li>Flujos independientes para los nueve productos autorizados.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>8. Fuera del alcance inicial<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>No se contempla inicialmente</h5><ul><li>Construir un nuevo motor KYC/KYB.</li><li>Reemplazar el agente existente.</li><li>Sustituir los sistemas core.</li><li>Crear un dashboard transaccional avanzado.</li><li>Gestionar liquidaciones avanzadas.</li><li>Ejecutar monitoreo transaccional posterior al Live.</li><li>Automatizar todas las configuraciones desde el primer release.</li><li>Entregar documentación sin NDA aprobado.</li><li>Entregar documentación sensible sin due diligence aprobado.</li><li>Entregar credenciales QA sin cumplir reglas.</li><li>Entregar credenciales productivas sin contrato.</li><li>Liberar producción sin checklist completo.</li><li>Permitir que Comercial apruebe Riesgo.</li><li>Permitir que Gerencia modifique estados operativos.</li><li>Eliminar trazabilidad histórica.</li><li>Compartir secretos por canales no controlados.</li><li>Usar tickets para entregar credenciales.</li><li>Activar productos adicionales automáticamente.</li><li>Gestionar saldos.</li><li>Ejecutar movimientos financieros.</li><li>Autorizar transferencias.</li><li>Aprobar operaciones.</li><li>Rechazar operaciones.</li><li>Cancelar operaciones.</li><li>Reversar operaciones.</li><li>Administrar beneficiarios.</li><li>Administrar cuentas destino.</li><li>Administrar límites transaccionales.</li><li>Crear esquemas de aprobación financiera.</li><li>Construir una experiencia de tesorería.</li><li>Incorporar otros productos no incluidos en el MVP.</li><li>Ejecutar operaciones financieras desde el Portal de Onboarding.</li><li>Ejecutar dispersiones desde el Portal de Onboarding.</li><li>Crear pagos masivos desde el Portal de Onboarding.</li></ul><h4>8.1 Aclaración sobre Dispersión</h4><h5>El alcance de Dispersión dentro de este portal comprende únicamente</h5><ul><li>Solicitud del producto.</li><li>Evaluación del comercio.</li><li>Parametrización comercial.</li><li>Contratación.</li><li>Integración.</li><li>Configuración.</li><li>Entrega de credenciales.</li><li>Activación.</li><li>Estado Live.</li></ul><h5>No incluye</h5><ul><li>Crear dispersiones.</li><li>Cargar lotes productivos.</li><li>Autorizar transferencias.</li><li>Consultar saldos.</li><li>Consultar movimientos.</li><li>Gestionar beneficiarios.</li><li>Aprobar pagos.</li><li>Ejecutar reversos.</li><li>Gestionar conciliación financiera.</li><li>Ejecutar instrucciones de pago.</li><li>Administrar cuentas destino.</li><li>Definir límites operativos.</li></ul><h4>8.2 Nota de alcance</h4><ul><li>La gestión operativa de fondos corresponde a una experiencia funcional distinta del onboarding.</li></ul><h5>Aunque en el futuro pueda compartir el mismo login y controles generales de seguridad, deberá contar con un levantamiento independiente de</h5><ul><li>Roles.</li><li>Pantallas.</li><li>Reglas de negocio.</li><li>Límites.</li><li>Autorizaciones.</li><li>Conciliación.</li><li>Soporte.</li><li>Controles transaccionales.</li><li>Auditoría financiera.</li><li>Integraciones operativas.</li><li>No debe ser estimada ni construida como parte del MVP definido en este documento.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>9. Roles principales<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>Para el MVP se definen seis roles principales</h5><ul><li>Comercio.</li><li>Comercial MOVii.</li><li>Riesgo / Cumplimiento.</li><li>Integraciones / Tech Team.</li><li>Gerencia / C-Level.</li><li>Administrador del Portal.</li></ul><h5>Las actividades legales y operativas deben estar</h5><ul><li>Automatizadas.</li><li>Parametrizadas.</li><li>Convertidas en tareas.</li><li>Asignadas mediante permisos específicos.</li><li>Registradas dentro del flujo.</li><li>Auditadas.</li><li>No se plantean inicialmente como roles independientes, salvo que MOVii decida conservar aprobaciones manuales específicas como permisos adicionales.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>10. Rol Comercio<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>10.1 Descripción</h4><ul><li>El Comercio es el usuario externo que desea vincularse a MOVii.</li></ul><h5>Puede solicitar</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li></ul><h4>10.2 Responsabilidad principal</h4><h5>El Comercio debe entregar la información necesaria para que MOVii pueda</h5><ul><li>Validarlo.</li><li>Aprobarlo.</li><li>Contratarlo.</li><li>Integrarlo.</li><li>Configurarlo.</li><li>Activar los productos solicitados.</li></ul><h4>10.3 Acciones permitidas</h4><h5>El Comercio puede</h5><ul><li>Crear cuenta.</li><li>Validar correo.</li><li>Iniciar solicitud.</li><li>Guardar y retomar.</li><li>Diligenciar información básica.</li><li>Diligenciar información AML.</li><li>Informar si tiene área de cumplimiento.</li><li>Informar si está vigilado.</li><li>Seleccionar productos.</li><li>Declarar ingresos.</li><li>Cargar documentos.</li><li>Aceptar declaración de origen de fondos.</li><li>Aceptar tratamiento de datos.</li><li>Aceptar otras autorizaciones.</li><li>Informar asesor comercial.</li><li>Consultar estados.</li><li>Corregir observaciones.</li><li>Firmar NDA.</li><li>Consultar la firma del NDA.</li><li>Consultar la aprobación del NDA.</li><li>Visualizar la Oferta de Valor.</li><li>Aceptar la Oferta de Valor.</li><li>Acceder a documentación.</li><li>Registrar datos técnicos.</li><li>Cargar llave pública RSA.</li><li>Utilizar un asistente seguro de generación RSA.</li><li>Registrar URLs.</li><li>Registrar webhooks.</li><li>Consultar credenciales QA.</li><li>Ejecutar pruebas.</li><li>Crear tickets.</li><li>Adjuntar evidencias.</li><li>Solicitar revisión técnica.</li><li>Solicitar sesión técnica.</li><li>Solicitar kickoff.</li><li>Firmar contrato.</li><li>Acceder a credenciales productivas.</li><li>Solicitar regeneración.</li><li>Consultar productos activos.</li><li>Iniciar nuevas solicitudes.</li></ul><h4>10.4 Restricciones</h4><h5>El Comercio no puede</h5><ul><li>Aprobar su propio due diligence.</li><li>Enviar su expediente a KYC/KYB sin NDA aprobado.</li><li>Modificar estados internos.</li><li>Ver análisis internos.</li><li>Modificar tarifas.</li><li>Aprobar el contrato desde MOVii.</li><li>Generar credenciales productivas.</li><li>Ver secretos de otros comercios.</li><li>Acceder a documentación no autorizada.</li><li>Ver credenciales sin autenticación reforzada.</li><li>Forzar la salida a producción.</li><li>Levantar banderas restrictivas.</li><li>Cargar una llave privada.</li><li>Compartir credenciales desde el portal.</li><li>Recibir secretos mediante tickets.</li><li>Activar automáticamente productos adicionales.</li><li>Operar movimientos de dinero desde el onboarding.</li><li>Saltarse una actualización documental.</li><li>Saltarse la revisión de Riesgo.</li><li>Saltarse el contrato.</li><li>Saltarse las pruebas cuando sean obligatorias.</li></ul><h4>10.5 Vistas principales del Comercio</h4><h5>El Comercio debe tener</h5><ul><li>Login y validación OTP.</li><li>Dashboard de avance.</li><li>Formulario guiado.</li><li>Carga documental.</li><li>Módulo de subsanaciones.</li><li>Módulo de NDA.</li><li>Módulo de Oferta de Valor.</li><li>Centro técnico.</li><li>Gestión de llaves RSA.</li><li>Credenciales QA.</li><li>Pruebas técnicas.</li><li>Tickets técnicos.</li><li>Contrato.</li><li>Credenciales productivas.</li><li>Estado Live.</li><li>Productos activos.</li><li>Nueva solicitud de producto.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>11. Rol Comercial MOVii<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>11.1 Descripción</h4><ul><li>El Comercial acompaña la vinculación de sus comercios asignados.</li></ul><h5>Su foco es</h5><ul><li>Seguimiento.</li><li>Acompañamiento.</li><li>Cierre comercial.</li><li>Parametrización de tarifas.</li><li>Generación de Oferta de Valor.</li><li>Escalamiento de bloqueos.</li><li>No debe ser responsable de ejecutar tareas técnicas, operativas o de Riesgo.</li></ul><h4>11.2 Responsabilidad principal</h4><p>El Comercial debe asegurar que sus comercios avancen dentro del proceso, identificando bloqueos, acompañando al comercio y parametrizando las tarifas correspondientes a los productos seleccionados.</p><h4>11.3 Acciones permitidas</h4><h5>Puede</h5><ul><li>Consultar comercios asignados.</li><li>Consultar solicitudes.</li><li>Ver productos seleccionados.</li><li>Ver avance.</li><li>Ver bloqueos.</li><li>Registrar observaciones.</li><li>Enviar recordatorios.</li><li>Escalar bloqueos.</li><li>Consultar NDA.</li><li>Consultar KYC/KYB.</li><li>Consultar due diligence.</li><li>Consultar Oferta de Valor.</li><li>Consultar integración.</li><li>Consultar contrato.</li><li>Consultar activación.</li><li>Visualizar tarifas base.</li><li>Parametrizar tarifas negociadas.</li><li>Registrar condiciones especiales.</li><li>Asociar tarifas al producto.</li><li>Generar Oferta de Valor.</li><li>Enviar condiciones a contrato.</li><li>Consultar productos activos.</li><li>Consultar comercios Live.</li><li>Acompañar nuevas solicitudes.</li><li>Identificar pendientes por área.</li></ul><h4>11.4 Vista comercial de tarifas</h4><h5>Debe mostrar</h5><ul><li>Comercio.</li><li>NIT.</li><li>Razón social.</li><li>Producto.</li><li>Estado del NDA.</li><li>Estado de KYC/KYB.</li><li>Estado de due diligence.</li><li>Estado de Oferta de Valor.</li><li>Estado de integración.</li><li>Estado de contrato.</li><li>Tarifa base.</li><li>Tarifa sugerida.</li><li>Tarifa negociada.</li><li>Comisión fija.</li><li>Comisión porcentual.</li><li>Comisión mínima.</li><li>Comisión máxima.</li><li>Modelo de liquidación.</li><li>Periodicidad de cobro.</li><li>MCC cuando aplique.</li><li>Condiciones especiales.</li><li>Vigencia.</li><li>Responsable.</li><li>Estado de aprobación tarifaria.</li><li>Historial de versiones.</li></ul><h4>11.5 Oferta de Valor</h4><ul><li>Después de la aprobación del NDA y del due diligence, el portal debe permitir que Comercial genere o habilite una Oferta de Valor.</li></ul><h5>La Oferta debe presentar</h5><ul><li>Producto.</li><li>Alcance.</li><li>Modelo de operación.</li><li>Beneficios.</li><li>Tarifas.</li><li>Costos.</li><li>Comisión fija.</li><li>Comisión porcentual.</li><li>Comisión mínima.</li><li>Comisión máxima.</li><li>Periodicidad.</li><li>Modelo de liquidación.</li><li>Condiciones especiales.</li><li>Vigencia.</li><li>Responsable comercial.</li><li>Fecha de generación.</li><li>Versión.</li><li>El comercio debe visualizar y aceptar la Oferta de Valor antes de avanzar al ambiente QA o a la integración formal cuando aplique.</li></ul><h4>11.6 Reglas de Oferta de Valor</h4><ul><li>Cada producto debe tener su propia condición comercial.</li><li>Cada producto debe tener tarifa cuando aplique.</li><li>La tarifa debe quedar versionada.</li><li>La Oferta debe mostrar cada producto seleccionado.</li><li>El contrato debe basarse en la versión aceptada.</li><li>El comercio no puede modificar tarifas.</li><li>Gerencia solo puede consultar si tiene permiso.</li><li>El Administrador configura tarifas base, pero no negocia.</li><li>Si cambia una tarifa, se debe generar una nueva versión.</li><li>Si cambia después del contrato, debe evaluarse un anexo.</li><li>Si una tarifa no aplica, debe registrarse con justificación.</li><li>La aceptación debe quedar auditada.</li><li>La aceptación debe registrar usuario, fecha, hora, IP y versión.</li></ul><h4>11.7 Restricciones</h4><h5>El Comercial no puede</h5><ul><li>Aprobar due diligence.</li><li>Rechazar por riesgo.</li><li>Levantar banderas restrictivas.</li><li>Enviar a KYC/KYB sin NDA.</li><li>Generar credenciales.</li><li>Ver secretos.</li><li>Aprobar pruebas.</li><li>Configurar sistemas.</li><li>Liberar producción.</li><li>Crear usuarios.</li><li>Asignar roles.</li><li>Modificar resultados KYC/KYB.</li><li>Modificar llaves RSA.</li><li>Descargar paquetes productivos.</li><li>Responder tickets como Integraciones.</li><li>Cerrar tickets técnicos.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>12. Rol Riesgo / Cumplimiento<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>12.1 Descripción</h4><ul><li>Riesgo / Cumplimiento revisa el expediente, valida alertas, evalúa riesgos AML, revisa beneficiarios finales y determina si el comercio puede continuar.</li></ul><h4>12.2 Responsabilidad principal</h4><ul><li>Determinar si el comercio puede avanzar al flujo comercial, técnico y productivo.</li></ul><h4>12.3 Acciones permitidas</h4><h5>Puede</h5><ul><li>Consultar expediente.</li><li>Revisar formulario.</li><li>Revisar documentos.</li><li>Consultar el NDA.</li><li>Consultar resultados KYC/KYB.</li><li>Revisar alertas.</li><li>Revisar coincidencias.</li><li>Revisar beneficiarios finales.</li><li>Revisar actividad económica.</li><li>Revisar información AML.</li><li>Revisar información del regulador.</li><li>Solicitar información.</li><li>Clasificar observaciones.</li><li>Aprobar due diligence.</li><li>Aprobar con condiciones.</li><li>Rechazar.</li><li>Marcar bandera restrictiva.</li><li>Levantar bandera.</li><li>Solicitar actualización documental.</li><li>Solicitar bloqueo o revocación posterior.</li><li>Evaluar nuevas solicitudes.</li><li>Solicitar revisión complementaria.</li></ul><h4>12.4 Reglas</h4><ul><li>El NDA debe estar aprobado antes de KYC/KYB.</li><li>Todos los comercios deben pasar por due diligence.</li><li>La documentación depende del segmento.</li><li>La documentación puede variar según el riesgo.</li><li>Una alerta restrictiva bloquea el flujo.</li><li>Una observación subsanable permite corrección.</li><li>Un rechazo no subsanable finaliza la solicitud.</li><li>No se inicia integración formal sin aprobación.</li><li>No se habilita Oferta de Valor final sin aprobación.</li><li>Una nueva solicitud debe validar vigencia documental.</li><li>Un producto con mayor riesgo puede requerir revisión complementaria.</li><li>Un comercio bloqueado no puede continuar.</li><li>Solo un rol autorizado puede levantar una bandera.</li></ul><h4>12.5 Restricciones</h4><h5>Riesgo no puede</h5><ul><li>Parametrizar tarifas.</li><li>Generar Oferta de Valor.</li><li>Generar credenciales.</li><li>Ver secretos.</li><li>Aprobar pruebas.</li><li>Configurar ambientes.</li><li>Marcar Live.</li><li>Crear usuarios.</li><li>Modificar reglas globales.</li><li>Descargar credenciales.</li><li>Modificar configuraciones técnicas.</li><li>Responder tickets técnicos.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>13. Rol Integraciones / Tech Team<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>13.1 Descripción</h4><ul><li>Integraciones es responsable de convertir una solicitud comercial aprobada en una configuración técnica y productiva funcional.</li></ul><h5>Debe gestionar las actividades necesarias para</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li></ul><h5>El portal debe representar las actividades que actualmente se realizan de forma manual</h5><ul><li>Solicitudes por notas.</li><li>Creación de chats.</li><li>Envío manual de documentación.</li><li>Validación del NDA.</li><li>Validación de Oferta de Valor.</li><li>Creación de credenciales QA.</li><li>Acompañamiento de pruebas.</li><li>Gestión de llaves RSA.</li><li>Validación de URLs.</li><li>Validación de webhooks.</li><li>Validación de consumo técnico.</li><li>Gestión de tickets.</li><li>Coordinación de sesiones.</li><li>Configuración productiva.</li><li>Solicitudes a Operaciones.</li><li>Creación o registro en GLIC.</li><li>Creación o registro en RS2.</li><li>Validación MATCH.</li><li>Creación de código de servicio.</li><li>Configuración de cuentas de recaudo.</li><li>Configuración en Mahindra.</li><li>Configuración en API Gateway.</li><li>Generación de credenciales.</li><li>Entrega segura de secretos.</li></ul><h4>13.2 Objetivo del flujo de Integraciones</h4><ul><li>Reemplazar el proceso manual basado en correos, chats, Drive, Excel y notas por un Caso de Integración dentro del portal.</li></ul><h5>El Caso de Integración debe centralizar</h5><ul><li>Estado técnico.</li><li>Estado documental.</li><li>Estado del NDA.</li><li>Estado de KYC/KYB.</li><li>Estado de due diligence.</li><li>Estado de Oferta de Valor.</li><li>Estado de credenciales QA.</li><li>Estado de llaves RSA.</li><li>Estado de pruebas.</li><li>Tickets.</li><li>Estado de configuración.</li><li>Estado de credenciales productivas.</li><li>Bloqueos.</li><li>Responsables.</li><li>Evidencias.</li><li>Auditoría.</li></ul><h4>13.3 Caso de Integración</h4><ul><li>Cada producto que requiera configuración técnica deberá generar un Caso de Integración.</li></ul><h5>El caso debe contener</h5><ul><li>ID del caso.</li><li>Comercio.</li><li>NIT.</li><li>Razón social.</li><li>Producto.</li><li>Tipo de integración.</li><li>Alcance.</li><li>Comercial responsable.</li><li>Contacto técnico.</li><li>Correo.</li><li>Teléfono.</li><li>Estado del NDA.</li><li>Estado KYC/KYB.</li><li>Estado de due diligence.</li><li>Estado de Oferta de Valor.</li><li>Estado de documentación.</li><li>Estado de llave RSA.</li><li>Estado de credenciales QA.</li><li>Estado de pruebas.</li><li>Tickets.</li><li>Estado de configuración.</li><li>Estado de contrato.</li><li>Estado de credenciales productivas.</li><li>Bloqueos.</li><li>Próxima acción.</li><li>Responsable.</li><li>Historial.</li><li>Evidencias.</li><li>Fecha de creación.</li><li>Fecha de actualización.</li><li>SLA.</li><li>Tiempo pendiente por MOVii.</li><li>Tiempo pendiente por comercio.</li><li>Tiempo pendiente por tercero.</li><li>El Caso de Integración debe ser la fuente única de verdad para Integraciones.</li></ul><h4>13.4 Acciones permitidas</h4><h5>Integraciones puede</h5><ul><li>Consultar casos.</li><li>Ver productos.</li><li>Ver estados regulatorios.</li><li>Ver Oferta de Valor.</li><li>Habilitar documentación.</li><li>Confirmar contacto técnico.</li><li>Validar datos.</li><li>Validar llave pública.</li><li>Solicitar correcciones.</li><li>Gestionar credenciales QA.</li><li>Gestionar ambiente QA.</li><li>Registrar URLs.</li><li>Registrar webhooks.</li><li>Validar consumo técnico.</li><li>Aprobar pruebas.</li><li>Rechazar pruebas.</li><li>Solicitar ajustes.</li><li>Preparar configuración productiva.</li><li>Generar o solicitar credenciales.</li><li>Enviar secretos a bóveda.</li><li>Preparar paquetes cifrados.</li><li>Revocar credenciales.</li><li>Regenerar credenciales.</li><li>Marcar activación técnica.</li><li>Gestionar tickets.</li><li>Coordinar sesiones técnicas.</li><li>Registrar resultados.</li><li>Asociar tickets a tareas.</li><li>Cerrar y reabrir tickets.</li><li>Ver auditoría técnica.</li><li>Revisar solicitudes adicionales.</li></ul><h4>13.5 Restricciones</h4><h5>Integraciones no puede</h5><ul><li>Aprobar due diligence.</li><li>Rechazar por riesgo.</li><li>Modificar tarifas.</li><li>Aprobar condiciones comerciales.</li><li>Saltarse el NDA.</li><li>Saltarse el due diligence.</li><li>Saltarse la Oferta de Valor.</li><li>Saltarse el contrato.</li><li>Liberar producción sin checklist.</li><li>Entregar credenciales por canales no autorizados.</li><li>Solicitar llaves privadas.</li><li>Ver secretos fuera del flujo.</li><li>Modificar reglas globales.</li><li>Asignar roles administrativos.</li><li>Marcar Live si faltan condiciones.</li><li>Usar tickets para compartir secretos.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>14. Precondiciones para iniciar Integraciones<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El flujo de Integraciones solo puede iniciar cuando</h5><ul><li>El formulario esté completo.</li><li>Los documentos estén cargados.</li><li>Las autorizaciones estén aceptadas.</li><li>El NDA esté firmado y aprobado.</li><li>KYC/KYB haya sido ejecutado.</li><li>El due diligence esté aprobado.</li><li>La tarifa esté parametrizada cuando aplique.</li><li>La Oferta de Valor esté aceptada.</li><li>Exista contacto técnico.</li><li>Exista una solicitud activa.</li><li>Exista un Comercial asignado.</li><li>El producto requiera integración o configuración técnica.</li><li>El portal identifique las reglas técnicas del producto.</li></ul><h4>14.1 Regla crítica</h4><h5>Sin NDA aprobado</h5><ul><li>No se envía el expediente a KYC/KYB.</li><li>No se inicia due diligence.</li><li>No se comparte documentación sensible.</li><li>No se entregan credenciales.</li><li>No se inicia integración formal.</li><li>No se coordina un kickoff técnico formal.</li></ul><h5>Sin due diligence aprobado</h5><ul><li>No se inicia la configuración final.</li><li>No se genera una Oferta de Valor definitiva.</li><li>No se asigna esfuerzo técnico formal.</li><li>No se entregan credenciales QA sensibles.</li></ul><h5>Sin Oferta de Valor aceptada cuando aplique</h5><ul><li>No se habilita QA.</li><li>No se habilita documentación sensible.</li><li>No se genera contrato final.</li><li>No se inicia la integración formal.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>15. Flujo ajustado: NDA antes de KYC/KYB y Oferta de Valor antes de QA<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El flujo debe ser</h5><ul><li>El comercio completa la información.</li><li>El comercio carga los documentos.</li><li>El comercio acepta las autorizaciones.</li><li>El portal genera o envía el NDA.</li><li>El comercio firma el NDA.</li><li>El portal valida la evidencia.</li><li>El portal marca el NDA como aprobado.</li><li>El portal envía el expediente a KYC/KYB.</li><li>Riesgo ejecuta el due diligence.</li><li>Riesgo aprueba el caso.</li><li>Comercial parametriza tarifas.</li><li>El portal genera la Oferta de Valor.</li><li>El comercio visualiza la Oferta.</li><li>El comercio acepta la Oferta.</li><li>El portal habilita documentación técnica.</li><li>El portal habilita QA.</li><li>El portal habilita las credenciales QA cuando aplique.</li><li>El portal genera el contrato.</li><li>El comercio firma el contrato.</li><li>Se completa la configuración.</li><li>Se liberan credenciales productivas.</li><li>El producto queda Live.</li></ul><h5>Reglas</h5><ul><li>Sin NDA aprobado no se envía a KYC/KYB.</li><li>Sin due diligence aprobado no se genera Oferta final.</li><li>Sin tarifa no se genera Oferta.</li><li>Sin Oferta aceptada no se habilita QA.</li><li>Sin Oferta aceptada no se genera contrato final.</li><li>Si la Oferta cambia, se genera una nueva versión.</li><li>El contrato debe reflejar la Oferta aceptada.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>16. Flujo técnico y contractual paralelo<span>Ver detalle</span></summary>
+      <div class="req-content"><ul><li>Después de la aceptación de la Oferta de Valor se habilitan dos ramas.</li></ul><h4>16.1 Rama técnica</h4><h5>Incluye</h5><ul><li>Crear Caso de Integración.</li><li>Confirmar contacto técnico.</li><li>Habilitar documentación.</li><li>Solicitar llave pública cuando aplique.</li><li>Permitir generación asistida de RSA.</li><li>Validar llave.</li><li>Generar credenciales QA.</li><li>Registrar URLs.</li><li>Registrar webhooks.</li><li>Realizar pruebas.</li><li>Gestionar tickets.</li><li>Coordinar sesiones.</li><li>Validar consumo.</li><li>Validar callbacks.</li><li>Validar firmas.</li><li>Validar respuestas.</li><li>Aprobar pruebas.</li><li>Marcar QA aprobado.</li></ul><h4>16.2 Rama contractual y productiva</h4><h5>Incluye</h5><ul><li>Generar contrato.</li><li>Firmar contrato.</li><li>Crear checklist por producto.</li><li>Reutilizar datos del expediente.</li><li>Validar datos faltantes.</li><li>Preparar configuración.</li><li>Crear registros en sistemas internos.</li><li>Crear identificadores.</li><li>Configurar cuentas de recaudo.</li><li>Configurar terminales.</li><li>Configurar accesos.</li><li>Configurar GLIC.</li><li>Configurar RS2.</li><li>Configurar Mahindra.</li><li>Configurar API Gateway.</li><li>Registrar evidencias.</li><li>Generar credenciales productivas.</li><li>Marcar configuración completa.</li><li>MOVii deberá adelantar las configuraciones que sean posibles mientras el comercio completa sus pruebas.</li><li>No se deberán liberar credenciales productivas hasta que todas las condiciones aplicables estén completas.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>17. Gestión de tickets técnicos<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>17.1 Objetivo</h4><ul><li>Centralizar las dudas y bloqueos técnicos dentro del portal.</li></ul><h5>Esta funcionalidad debe evitar que las dudas se gestionen únicamente por</h5><ul><li>Correo.</li><li>Chats.</li><li>Mensajes.</li><li>Llamadas.</li><li>Canales informales.</li></ul><h4>17.2 Acceso del comercio</h4><h5>El comercio podrá crear tickets desde</h5><ul><li>Centro técnico.</li><li>Caso de Integración.</li><li>Vista de credenciales QA.</li><li>Vista de pruebas.</li><li>Gestión de llaves RSA.</li><li>Vista de URLs.</li><li>Vista de webhooks.</li><li>Estado de integración.</li></ul><h4>17.3 Categorías</h4><ul><li>Duda sobre documentación.</li><li>Duda sobre credenciales QA.</li><li>Problema con llave RSA.</li><li>Problema con webhooks o URLs.</li><li>Error en pruebas.</li><li>Solicitud de revisión.</li><li>Solicitud de sesión técnica.</li><li>Solicitud de kickoff.</li><li>Duda sobre ambiente QA.</li><li>Otro.</li></ul><h4>17.4 Información mínima</h4><ul><li>Comercio.</li><li>NIT.</li><li>Producto.</li><li>Caso asociado.</li><li>Categoría.</li><li>Descripción.</li><li>Prioridad.</li><li>Evidencia.</li><li>Usuario.</li><li>Fecha y hora.</li></ul><h4>17.5 Flujo funcional</h4><ul><li>El comercio identifica una duda.</li><li>El comercio crea un ticket.</li><li>El portal asocia el ticket al comercio.</li><li>El portal lo asocia al producto.</li><li>El portal lo asocia al Caso de Integración.</li><li>Integraciones recibe el ticket.</li><li>Integraciones revisa.</li><li>Integraciones responde.</li><li>Integraciones solicita información si hace falta.</li><li>Integraciones coordina una sesión si aplica.</li><li>El comercio consulta la respuesta.</li><li>El ticket se cierra cuando queda resuelto.</li></ul><h4>17.6 Acciones de Integraciones</h4><h5>Puede</h5><ul><li>Ver tickets.</li><li>Filtrar tickets.</li><li>Revisar evidencias.</li><li>Responder.</li><li>Solicitar información.</li><li>Marcar pendiente por comercio.</li><li>Marcar pendiente por Integraciones.</li><li>Enviar correo de coordinación.</li><li>Registrar fecha de sesión.</li><li>Registrar resultado.</li><li>Asociar el ticket a una tarea.</li><li>Cerrar.</li><li>Reabrir.</li></ul><h4>17.7 Estados</h4><ul><li>Creado.</li><li>En revisión.</li><li>Respondido.</li><li>Información adicional requerida.</li><li>Pendiente por comercio.</li><li>Pendiente por Integraciones.</li><li>Sesión requerida.</li><li>Coordinación enviada.</li><li>Sesión agendada.</li><li>Resuelto.</li><li>Cerrado.</li><li>Reabierto.</li></ul><h4>17.8 Reglas</h4><ul><li>El comercio solo crea tickets sobre sus solicitudes.</li><li>Integraciones responde y cierra.</li><li>No se entregan secretos por tickets.</li><li>Los tickets deben asociarse al producto.</li><li>Los cambios deben quedar auditados.</li><li>Si un ticket se relaciona con credenciales productivas, debe redirigirse al flujo seguro.</li><li>Si evidencia un bloqueo, debe asociarse a una tarea.</li><li>Si no hay respuesta del comercio, debe quedar pendiente por comercio.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>18. Documentación técnica<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe permitir</h5><ul><li>Asociar documentación a cada producto.</li><li>Controlar accesos.</li><li>Registrar versiones.</li><li>Registrar descargas.</li><li>Notificar actualizaciones.</li><li>Revocar accesos.</li><li>Segmentar documentación.</li><li>Registrar quién accedió.</li><li>Registrar fecha y hora.</li><li>Asociar manuales.</li><li>Asociar colecciones de prueba.</li><li>Asociar guías RSA.</li><li>Asociar documentos de configuración.</li><li>Asociar preguntas frecuentes.</li><li>La documentación solo se habilita cuando se cumplan las condiciones regulatorias y comerciales.</li></ul><h5>Reglas</h5><ul><li>Sin NDA no hay documentación sensible.</li><li>Sin due diligence aprobado no hay documentación sensible.</li><li>Sin Oferta aceptada no hay documentación si el producto lo exige.</li><li>Comercial no debe enviar documentación manualmente.</li><li>El acceso debe quedar auditado.</li><li>Si el producto no requiere documentación, la etapa puede omitirse.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>19. Credenciales QA<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe permitir</h5><ul><li>Crear credenciales QA.</li><li>Asociarlas al comercio.</li><li>Asociarlas al producto.</li><li>Asociarlas al ambiente.</li><li>Entregarlas desde el portal.</li><li>Registrar generación.</li><li>Registrar responsable.</li><li>Regenerarlas.</li><li>Revocarlas.</li><li>Registrar acceso.</li><li>Auditar la entrega.</li><li>Registrar si fueron visualizadas.</li><li>Registrar si fueron descargadas.</li><li>Registrar fecha.</li><li>Registrar usuario.</li></ul><h5>Las credenciales QA</h5><ul><li>No operan en producción.</li><li>No se envían por correo plano.</li><li>No se entregan sin trazabilidad.</li><li>Deben diferenciarse de las productivas.</li><li>Pueden tener controles menos restrictivos que producción, pero nunca sin auditoría.</li><li>Deben revocarse si la solicitud se cancela.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>20. Pruebas técnicas<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe permitir</h5><ul><li>Mostrar el estado.</li><li>Registrar inicio de desarrollo.</li><li>Registrar preparación para pruebas.</li><li>Crear tickets.</li><li>Registrar observaciones.</li><li>Aprobar pruebas.</li><li>Rechazar pruebas.</li><li>Solicitar ajustes.</li><li>Adjuntar evidencias.</li><li>Registrar fecha de certificación.</li><li>Marcar “No requiere pruebas”.</li><li>Registrar logs.</li><li>Registrar capturas.</li><li>Identificar si el bloqueo está en MOVii o en el comercio.</li></ul><h5>Estados</h5><ul><li>No iniciadas.</li><li>Documentación entregada.</li><li>Credenciales QA disponibles.</li><li>En desarrollo.</li><li>Esperando comercio.</li><li>Listo para validación.</li><li>En revisión.</li><li>Pruebas fallidas.</li><li>Ajustes requeridos.</li><li>Pruebas aprobadas.</li><li>No requiere pruebas.</li></ul><h5>Reglas</h5><ul><li>Si el producto requiere pruebas, no se libera producción sin aprobación.</li><li>Si no requiere pruebas, el portal debe permitir omitirlas mediante una regla.</li><li>Solo Integraciones puede cerrar la etapa técnica.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>21. Gestión de llaves RSA<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>Cuando el producto lo requiera, el portal debe</h5><ul><li>Explicar llave pública y privada.</li><li>Advertir que MOVii nunca solicitará la llave privada.</li><li>Permitir cargar la llave pública.</li><li>Validar el archivo.</li><li>Rechazar llaves privadas.</li><li>Asociar la llave al comercio.</li><li>Asociarla al producto.</li><li>Asociarla al ambiente.</li><li>Registrar fecha.</li><li>Registrar usuario.</li><li>Permitir rotación.</li><li>Marcar validación.</li><li>Entregar la llave pública de MOVii.</li><li>Registrar eventos.</li><li>Permitir descargar una guía.</li><li>Permitir generar llaves mediante una herramienta aprobada.</li><li>Registrar la aceptación de custodia.</li></ul><h5>La llave privada</h5><ul><li>No debe viajar a servidores MOVii.</li><li>No debe almacenarse en el portal.</li><li>Debe ser custodiada por el comercio.</li><li>Si el comercio pierde su llave privada, deberá generar una nueva y rotar la configuración.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>22. Viabilidad de asistente seguro de generación RSA<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>Es viable apoyar al comercio con una herramienta segura para generación de llaves RSA si cumple</h5><ul><li>Aprobación de Ciberseguridad.</li><li>Ejecución preferiblemente en el navegador.</li><li>La llave privada no viaja a MOVii.</li><li>La llave privada no se almacena.</li><li>El comercio descarga la llave localmente.</li><li>MOVii conserva únicamente la llave pública.</li><li>Existe advertencia de custodia.</li><li>Existe auditoría del evento.</li><li>Permite regeneración.</li><li>Permite descargar una guía.</li><li>Permite marcar la llave como activa, reemplazada o revocada.</li><li>MOVii no debe recomendar generadores públicos no aprobados.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>23. Flujo por producto<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>23.1 PSE</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Reutilizar información.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Habilitar documentación.</li><li>Identificar datos requeridos.</li><li>Crear o registrar código de servicio.</li><li>Asociar el código al comercio.</li><li>Configurar cuenta de recaudo.</li><li>Configurar GLIC.</li><li>Configurar Mahindra cuando aplique.</li><li>Configurar PIN o secreto.</li><li>Configurar autorización.</li><li>Configurar API Gateway.</li><li>Generar credenciales QA.</li><li>Ejecutar pruebas.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Entregar credenciales cifradas.</li><li>Marcar PSE Live.</li></ul><h5>Reglas</h5><ul><li>No se activa sin código de servicio.</li><li>No se activa sin contrato.</li><li>No se activa sin tarifa cuando aplique.</li><li>No se liberan credenciales sin checklist.</li><li>La información vigente debe reutilizarse.</li><li>Si depende de un tercero, debe mostrarse “Pendiente código de servicio”.</li><li>Si no existe automatización, Integraciones ejecutará la tarea manualmente.</li><li>La evidencia debe quedar registrada.</li></ul><h4>23.2 ACH</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Habilitar documentación.</li><li>Confirmar contacto técnico.</li><li>Configurar el comercio.</li><li>Configurar cuentas autorizadas cuando aplique.</li><li>Configurar identificadores.</li><li>Definir estructuras de archivo o mensaje.</li><li>Configurar canales seguros.</li><li>Generar credenciales QA.</li><li>Ejecutar pruebas.</li><li>Validar estructura.</li><li>Validar carga.</li><li>Validar respuestas.</li><li>Validar errores.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Entregar credenciales de forma segura.</li><li>Marcar ACH Live.</li></ul><h5>Reglas</h5><ul><li>La configuración debe quedar auditada.</li><li>Los accesos productivos deben entregarse de forma segura.</li><li>La operación posterior no hace parte del onboarding.</li><li>Si requiere intercambio de archivos, debe utilizarse un canal aprobado.</li><li>No se debe habilitar producción sin pruebas aprobadas cuando apliquen.</li></ul><h4>23.3 QR</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Configurar el comercio.</li><li>Configurar sucursales.</li><li>Configurar terminales o puntos.</li><li>Generar identificadores QR.</li><li>Validar formato.</li><li>Asociar QR al comercio.</li><li>Asociar QR a la sucursal.</li><li>Generar accesos QA cuando aplique.</li><li>Ejecutar pruebas.</li><li>Validar lectura.</li><li>Validar identificación.</li><li>Validar respuesta.</li><li>Confirmar contrato.</li><li>Activar el producto.</li><li>Marcar QR Live.</li></ul><h5>Reglas</h5><ul><li>Cada QR debe quedar asociado al comercio.</li><li>La configuración debe diferenciar sucursales.</li><li>Los identificadores deben quedar registrados.</li><li>Si existe generación física o digital, debe registrarse el tipo.</li><li>No se marca Live si falta asociación productiva.</li></ul><h4>23.4 Tap to Phone</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Validar dispositivos compatibles.</li><li>Configurar comercio.</li><li>Configurar usuarios.</li><li>Configurar terminales.</li><li>Configurar adquirencia.</li><li>Registrar dispositivos.</li><li>Validar requisitos de seguridad.</li><li>Generar accesos QA cuando aplique.</li><li>Ejecutar pruebas.</li><li>Validar aceptación.</li><li>Validar conectividad.</li><li>Validar respuesta.</li><li>Confirmar contrato.</li><li>Generar accesos productivos.</li><li>Activar el producto.</li><li>Marcar Tap to Phone Live.</li></ul><h5>Reglas</h5><ul><li>No se activa un dispositivo no autorizado.</li><li>El usuario debe estar asociado al comercio.</li><li>La configuración debe quedar auditada.</li><li>La aplicación no debe permitir acceso a otros comercios.</li><li>Los dispositivos deben cumplir las condiciones definidas por MOVii.</li></ul><h4>23.5 Botón de Pago</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Habilitar documentación.</li><li>Registrar URL de origen.</li><li>Registrar URL de respuesta exitosa.</li><li>Registrar URL de cancelación.</li><li>Registrar URL de rechazo.</li><li>Registrar URL de error.</li><li>Registrar moneda.</li><li>Registrar métodos habilitados.</li><li>Validar llave RSA.</li><li>Entregar llave pública de MOVii.</li><li>Generar credenciales QA.</li><li>Permitir tickets.</li><li>Validar redirección.</li><li>Validar firma.</li><li>Validar respuesta.</li><li>Validar rechazo.</li><li>Validar cancelación.</li><li>Validar errores.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Entregar paquete cifrado.</li><li>Marcar Botón de Pago Live.</li></ul><h5>Reglas</h5><ul><li>No se liberan credenciales productivas sin contrato.</li><li>Las pruebas deben aprobarse cuando sean obligatorias.</li><li>Las URLs productivas solo se habilitan con checklist completo.</li><li>El comercio debe custodiar su llave privada.</li><li>MOVii validará mediante la llave pública del comercio.</li><li>El comercio validará las respuestas con la llave pública de MOVii.</li></ul><h4>23.6 Tarjeta</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Validar información del comercio.</li><li>Validar razón social.</li><li>Validar NIT.</li><li>Validar dirección.</li><li>Validar ciudad.</li><li>Validar país.</li><li>Validar representante legal.</li><li>Validar URL.</li><li>Validar MCC.</li><li>Validar volumen esperado.</li><li>Ejecutar MATCH cuando aplique.</li><li>Crear comercio en RS2.</li><li>Crear comercio en GLIC.</li><li>Crear sucursal.</li><li>Crear afiliación.</li><li>Crear terminal.</li><li>Configurar adquirencia.</li><li>Generar credenciales QA.</li><li>Ejecutar pruebas.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Entregar credenciales cifradas.</li><li>Marcar Tarjeta Live.</li></ul><h5>Reglas</h5><ul><li>Si falta MATCH cuando es obligatorio, no se activa.</li><li>Si falta configuración adquirente, no se activa.</li><li>Si falta RS2 cuando aplica, no se activa.</li><li>Si falta GLIC, no se activa.</li><li>Si falta contrato, no se liberan credenciales.</li><li>Las dependencias externas deben mostrar “Pendiente por tercero”.</li><li>Si existe una ventana de activación, debe mostrarse el estado correspondiente.</li></ul><h4>23.7 Bre-B</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Configurar el producto.</li><li>Configurar identificadores.</li><li>Configurar QR o alias cuando aplique.</li><li>Crear o asociar cuenta de recaudo.</li><li>Configurar GLIC.</li><li>Configurar API Gateway.</li><li>Validar llave RSA.</li><li>Generar credenciales QA.</li><li>Ejecutar pruebas.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Entregar credenciales cifradas.</li><li>Marcar Bre-B Live.</li></ul><h5>Reglas</h5><ul><li>No se activa sin configuración completa.</li><li>No se activa sin contrato.</li><li>Las credenciales se entregan mediante el flujo seguro.</li><li>Las dependencias externas deben quedar visibles.</li><li>Si requiere API Gateway, no se marca Live sin configuración.</li><li>Si requiere cuenta de recaudo, debe estar activa.</li></ul><h4>23.8 MOVii Pay</h4><h5>Actividades</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración cuando aplique.</li><li>Asociar el comercio.</li><li>Configurar identificadores.</li><li>Configurar reglas de aceptación.</li><li>Configurar cuenta de recaudo cuando aplique.</li><li>Habilitar documentación.</li><li>Configurar accesos.</li><li>Generar credenciales QA cuando aplique.</li><li>Ejecutar pruebas.</li><li>Validar el flujo de pago.</li><li>Validar respuestas.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Activar el producto.</li><li>Marcar MOVii Pay Live.</li></ul><h5>Reglas</h5><ul><li>MOVii Pay debe tratarse como un producto independiente.</li><li>No debe agrupar otros productos.</li><li>Sus tarifas deben gestionarse de forma independiente.</li><li>Su contrato debe gestionarse de forma independiente.</li><li>Su integración debe gestionarse de forma independiente.</li><li>Su estado debe gestionarse de forma independiente.</li><li>No debe mostrarse como una categoría multiproducto.</li></ul><h4>23.9 Dispersión</h4><h5>Actividades de onboarding</h5><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Parametrizar tarifa.</li><li>Generar Oferta de Valor.</li><li>Crear Caso de Integración.</li><li>Habilitar documentación.</li><li>Confirmar contacto técnico.</li><li>Configurar el comercio.</li><li>Configurar identificadores.</li><li>Configurar acceso técnico.</li><li>Configurar archivos o interfaces.</li><li>Configurar canales seguros.</li><li>Generar credenciales QA.</li><li>Ejecutar pruebas.</li><li>Validar estructura de información.</li><li>Validar respuestas.</li><li>Validar errores.</li><li>Confirmar contrato.</li><li>Generar credenciales productivas.</li><li>Activar el producto.</li><li>Marcar Dispersión Live.</li></ul><h5>Reglas</h5><ul><li>El portal de onboarding no ejecuta dispersiones.</li><li>No permite cargar lotes productivos.</li><li>No autoriza pagos.</li><li>No administra beneficiarios.</li><li>No consulta saldos.</li><li>No consulta movimientos.</li><li>Solo gestiona vinculación, integración, configuración y activación.</li><li>La operación posterior debe construirse en una iniciativa independiente.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>24. Nueva solicitud posterior al Live<span>Ver detalle</span></summary>
+      <div class="req-content"><ul><li>Un comercio ya registrado podrá solicitar un producto adicional.</li></ul><h4>24.1 Principio</h4><ul><li>Una nueva solicitud debe tratarse como un nuevo flujo de vinculación de producto.</li><li>El portal podrá reutilizar información únicamente si se encuentra vigente.</li></ul><h4>24.2 Validaciones</h4><h5>El portal debe validar</h5><ul><li>Estado del comercio.</li><li>Fecha de última vinculación.</li><li>Fecha de última actualización.</li><li>Vigencia documental.</li><li>Vigencia de Cámara de Comercio.</li><li>Vigencia de RUT cuando aplique.</li><li>Vigencia de composición accionaria.</li><li>Vigencia de estados financieros.</li><li>Vigencia de declaración de renta.</li><li>Cambios en representante legal.</li><li>Cambios accionarios.</li><li>Cambios de actividad económica.</li><li>Cambios en ingresos.</li><li>Riesgo del nuevo producto.</li><li>Vigencia del NDA.</li><li>Cobertura del NDA.</li><li>Necesidad de nueva Oferta de Valor.</li><li>Necesidad de contrato o anexo.</li><li>Necesidad de integración.</li><li>Necesidad de credenciales.</li><li>Necesidad de configuración.</li></ul><h4>24.3 Resultados</h4><ul><li>Ruta A: expediente vigente.</li><li>Reutilizar información.</li><li>Solicitar datos específicos.</li><li>Ruta B: expediente parcialmente vencido.</li><li>Solicitar documentos vencidos.</li><li>Ruta C: expediente vencido.</li><li>Solicitar actualización completa o parcial.</li><li>Enviar nuevamente a Riesgo.</li><li>Ruta D: producto con mayor riesgo.</li><li>Ejecutar revisión complementaria.</li><li>Ruta E: comercio bloqueado.</li><li>Impedir la solicitud.</li><li>Enviar a revisión de Riesgo.</li><li>Un producto adicional nunca debe activarse automáticamente.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>25. Gestión de documentos existentes<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe reutilizar información cuando</h5><ul><li>Se encuentre vigente.</li><li>Haya sido validada.</li><li>Aplique al producto.</li><li>No exista una solicitud de actualización.</li><li>No haya cambios materiales.</li></ul><h5>No debe volver a solicitar</h5><ul><li>NIT vigente.</li><li>Razón social validada.</li><li>Representante legal vigente.</li><li>Documentos vigentes.</li><li>Información ya extraída.</li><li>Datos técnicos reutilizables.</li><li>Las tarifas, Ofertas de Valor y contratos no deben reutilizarse automáticamente entre productos.</li><li>Si el NDA continúa vigente y cubre el nuevo producto, podrá reutilizarse.</li><li>Si el NDA está vencido o no cubre el producto, deberá gestionarse uno nuevo.</li></ul><h5>Las áreas internas no deben pedir manualmente información ya capturada, salvo que</h5><ul><li>Esté vencida.</li><li>Esté desactualizada.</li><li>No aplique.</li><li>Riesgo solicite actualización.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>26. Configuración productiva centralizada<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal debe reemplazar</h5><ul><li>Drive.</li><li>Excel.</li><li>Correos.</li><li>Chats.</li><li>Notas.</li><li>Formatos manuales.</li><li>Evidencias dispersas.</li><li>Confirmaciones verbales.</li><li>Solicitudes informales.</li><li>Entregas manuales.</li></ul><h5>Por</h5><ul><li>Expediente digital.</li><li>Caso de Integración.</li><li>Checklist por producto.</li><li>Bandejas.</li><li>Tareas.</li><li>Estados.</li><li>Evidencias.</li><li>Auditoría.</li><li>Credenciales seguras.</li><li>Historial.</li><li>Tickets.</li><li>Responsable.</li><li>SLA.</li><li>Próxima acción.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>27. Entrega segura de credenciales productivas<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>Las credenciales nunca se comparten por</h5><ul><li>Correo plano.</li><li>WhatsApp.</li><li>Slack.</li><li>Teams.</li><li>Excel.</li><li>Drive.</li><li>Adjuntos sin protección.</li><li>Chats.</li><li>Tickets.</li></ul><h5>La entrega debe realizarse con</h5><ul><li>Usuario autorizado.</li><li>Autenticación reforzada.</li><li>Bóveda de secretos.</li><li>Cifrado.</li><li>Visualización o descarga única.</li><li>Auditoría.</li><li>Revocación.</li><li>Regeneración.</li></ul><h4>27.1 Datos considerados credenciales</h4><ul><li>API Key.</li><li>Client ID.</li><li>Client Secret.</li><li>Usuario.</li><li>Contraseña.</li><li>Terminal ID.</li><li>Merchant ID.</li><li>Código de servicio.</li><li>Token.</li><li>PIN.</li><li>Secreto.</li><li>Paquete de configuración.</li><li>Parámetros sensibles.</li><li>Datos de conexión.</li><li>Credenciales de portal.</li><li>URLs productivas sensibles.</li></ul><h4>27.2 Usuario autorizado</h4><h5>Solo podrán acceder</h5><ul><li>Correo principal validado.</li><li>Representante legal.</li><li>Usuario técnico autorizado.</li><li>Usuario adicional autorizado formalmente.</li></ul><h5>Reglas</h5><ul><li>Correo validado.</li><li>Autenticación reforzada.</li><li>Registro de quién autorizó.</li><li>Aceptación de custodia.</li><li>Comercial, Riesgo y Gerencia no ven secretos.</li><li>Administrador solo bajo excepción controlada.</li></ul><h4>27.3 Flujo</h4><ul><li>Validar NDA.</li><li>Validar due diligence.</li><li>Validar Oferta de Valor.</li><li>Validar contrato.</li><li>Validar pruebas.</li><li>Validar configuración.</li><li>Generar credenciales.</li><li>Almacenar en bóveda.</li><li>Preparar paquete.</li><li>Cifrar.</li><li>Solicitar MFA.</li><li>Mostrar advertencia.</li><li>Entregar.</li><li>Registrar auditoría.</li><li>Bloquear nueva visualización.</li><li>Permitir regeneración.</li></ul><h4>27.4 Descarga única</h4><h5>Antes de acceder</h5><ul><li>Validación OTP o MFA.</li><li>Confirmación de identidad.</li><li>Aceptación de seguridad.</li><li>Confirmación de custodia.</li></ul><h5>Después</h5><ul><li>No se vuelve a mostrar el secreto.</li><li>Se registra usuario.</li><li>Se registra correo.</li><li>Se registra IP.</li><li>Se registra fecha.</li><li>Se registra navegador.</li><li>Se registra producto.</li><li>Se registra ambiente.</li><li>Se marca como entregado.</li></ul><h4>27.5 Regeneración y revocación</h4><h5>El portal debe permitir</h5><ul><li>Solicitar regeneración.</li><li>Aprobar regeneración.</li><li>Revocar credenciales.</li><li>Rotar secretos.</li><li>Registrar motivo.</li><li>Notificar.</li><li>Auditar.</li><li>La regeneración debe invalidar la credencial anterior, salvo coexistencia temporal controlada.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>28. Firma del NDA y contrato<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>28.1 NDA</h4><h5>Debe</h5><ul><li>Tener validez jurídica.</li><li>Conservar la versión firmada.</li><li>Conservar evidencia.</li><li>Registrar firmante.</li><li>Registrar identificación.</li><li>Registrar correo.</li><li>Registrar fecha y hora.</li><li>Registrar IP.</li><li>Registrar proveedor.</li><li>Registrar historial.</li><li>Conservar documento final.</li><li>Conservar certificado.</li></ul><h5>Sin NDA aprobado no se puede</h5><ul><li>Enviar a KYC/KYB.</li><li>Iniciar due diligence.</li><li>Compartir documentación.</li><li>Entregar credenciales.</li><li>Iniciar integración formal.</li><li>Coordinar kickoff.</li><li>Compartir información confidencial.</li><li>Si el NDA se carga manualmente, debe quedar pendiente de revisión.</li></ul><h4>28.2 Contrato</h4><h5>Debe</h5><ul><li>Incorporar productos seleccionados.</li><li>Incorporar tarifas.</li><li>Incorporar la Oferta de Valor.</li><li>Conservar versiones.</li><li>Conservar evidencia.</li><li>Gestionar anexos.</li><li>Bloquear producción mientras no esté firmado.</li><li>Conservar certificado de firma.</li><li>Registrar historial.</li><li>Si se adiciona un producto, podrá requerirse un nuevo contrato o anexo.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>29. Requerimientos no funcionales de seguridad<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>29.1 Autenticación</h4><h5>El portal debe incluir</h5><ul><li>Autenticación segura.</li><li>OTP de único uso.</li><li>Expiración.</li><li>Límite de intentos.</li><li>Invalidación del OTP anterior.</li><li>MFA para acciones sensibles.</li><li>Autenticación corporativa para usuarios internos.</li><li>Una sesión activa por usuario, salvo excepción.</li></ul><h4>29.2 Autorización</h4><ul><li>Debe existir control basado en roles y permisos.</li></ul><h5>Cada rol accede únicamente a</h5><ul><li>Módulos autorizados.</li><li>Expedientes autorizados.</li><li>Comercios autorizados.</li><li>Productos autorizados.</li><li>Acciones autorizadas.</li><li>La autorización debe validarse en backend.</li></ul><h4>29.3 Cifrado</h4><ul><li>Todo tráfico debe estar cifrado.</li><li>Los documentos deben almacenarse protegidos.</li><li>Los secretos deben almacenarse en bóveda.</li><li>Las credenciales deben cifrarse.</li><li>La llave privada del comercio nunca debe almacenarse.</li><li>Los datos sensibles no deben quedar en URLs o logs.</li></ul><h4>29.4 SSH, SFTP y accesos administrativos</h4><ul><li>Los accesos administrativos deben utilizar mecanismos aprobados.</li><li>Los archivos sensibles deben intercambiarse mediante canales seguros.</li><li>No debe existir acceso root directo sin trazabilidad.</li><li>Las llaves administrativas deben tener propietario.</li><li>Deben tener vigencia.</li><li>Deben tener revocación.</li><li>Deben tener rotación.</li></ul><h4>29.5 Auditoría</h4><h5>El portal debe auditar</h5><ul><li>Inicio y cierre de sesión.</li><li>OTP.</li><li>Solicitudes.</li><li>Documentos.</li><li>Autorizaciones.</li><li>NDA.</li><li>Envío a KYC/KYB.</li><li>Respuestas KYC/KYB.</li><li>Decisiones de Riesgo.</li><li>Tarifas.</li><li>Oferta de Valor.</li><li>Contrato.</li><li>Documentación técnica.</li><li>Llaves RSA.</li><li>Credenciales QA.</li><li>Credenciales productivas.</li><li>Tickets.</li><li>Configuración.</li><li>Cambios de estado.</li><li>Producto Live.</li><li>Cliente Live.</li><li>Nuevas solicitudes.</li><li>Cambios de permisos.</li></ul><h5>Cada evento debe registrar</h5><ul><li>Usuario.</li><li>Rol.</li><li>Fecha.</li><li>Hora.</li><li>IP.</li><li>Navegador.</li><li>Acción.</li><li>Estado anterior.</li><li>Estado nuevo.</li><li>Motivo.</li><li>Comercio.</li><li>Expediente.</li><li>Producto.</li><li>Ambiente.</li><li>Versión.</li></ul><h5>Los logs no deben almacenar</h5><ul><li>Contraseñas.</li><li>OTP completos.</li><li>Tokens.</li><li>Cookies.</li><li>Llaves privadas.</li><li>Secretos.</li><li>Credenciales productivas.</li><li>Contenido sensible innecesario.</li></ul><h4>29.6 Gestión de sesiones</h4><ul><li>Una sesión activa por usuario.</li><li>Las pestañas podrán compartir la sesión.</li><li>Una nueva sesión invalida la anterior.</li><li>El usuario puede cerrar sesiones.</li><li>La sesión expira por inactividad.</li><li>Las cookies deben ser Secure, HttpOnly y SameSite.</li><li>El portal debe detectar cambios anómalos.</li><li>Ante anomalías, debe solicitar reautenticación.</li></ul><h4>29.7 Eventos de seguridad</h4><h5>El usuario debe ser notificado ante</h5><ul><li>Inicio desde dispositivo nuevo.</li><li>Restablecimiento de contraseña.</li><li>Cambio de correo.</li><li>Cambio de teléfono.</li><li>Bloqueo.</li><li>Recuperación.</li><li>Cambio de MFA.</li><li>Revocación de credenciales.</li><li>Regeneración de credenciales.</li></ul><h4>29.8 Validación antes de producción</h4><h5>Antes del go-live, el portal debe pasar por</h5><ul><li>Revisión de vulnerabilidades.</li><li>Pruebas de seguridad.</li><li>Revisión de autenticación.</li><li>Revisión de autorización.</li><li>Revisión de exposición de datos.</li><li>Revisión de secretos.</li><li>Remediación de hallazgos críticos.</li><li>Remediación de hallazgos altos.</li><li>Las excepciones deben quedar documentadas.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>30. Formulario de onboarding<span>Ver detalle</span></summary>
+      <div class="req-content"><ul><li>El formulario debe ser guiado, recuperable y segmentado.</li></ul><h4>30.1 Bienvenida</h4><h5>Debe explicar que el proceso busca cumplir</h5><ul><li>Requisitos regulatorios.</li><li>Conocimiento del cliente.</li><li>Prevención de lavado de activos.</li><li>Gestión de riesgo.</li><li>Habilitación comercial.</li></ul><h4>30.2 Información básica</h4><h5>Campos</h5><ul><li>Razón social.</li><li>NIT.</li><li>Tipo de empresa.</li><li>Sitio web o redes sociales.</li><li>Correo del representante legal.</li></ul><h5>Reglas</h5><ul><li>Todos los campos obligatorios.</li><li>Validar NIT.</li><li>Identificar si el comercio ya existe.</li><li>Identificar si el expediente está vigente.</li><li>Identificar si está vencido.</li><li>Identificar si está bloqueado.</li></ul><h4>30.3 Información AML</h4><h5>Campos</h5><ul><li>Políticas AML.</li><li>Prevención del fraude.</li><li>Área de cumplimiento.</li><li>Si responde sí, debe habilitarse la sección del responsable.</li></ul><h4>30.4 Responsable de cumplimiento</h4><ul><li>Nombre.</li><li>Documento.</li><li>Correo.</li><li>Teléfono.</li><li>Cargo.</li></ul><h4>30.5 Vigilancia y control</h4><ul><li>Indicar si es vigilado.</li><li>Nombre del regulador.</li></ul><h4>30.6 Productos requeridos</h4><h5>El formulario debe mostrar exclusivamente</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li><li>El comercio podrá seleccionar uno o varios.</li><li>No debe aparecer ningún otro producto.</li></ul><h4>30.7 Nivel de ingresos</h4><ul><li>Hasta $100 MM.</li><li>Hasta $300 MM.</li><li>Más de $300 MM.</li></ul><h4>30.8 Documentación hasta $100 MM</h4><ul><li>Cámara de Comercio.</li><li>Cédula del representante legal.</li><li>Últimos tres extractos bancarios.</li></ul><h4>30.9 Documentación hasta $300 MM</h4><ul><li>Cámara de Comercio.</li><li>Cédula del representante legal.</li><li>Composición accionaria.</li><li>Declaración de renta.</li></ul><h4>30.10 Documentación superior a $300 MM</h4><ul><li>Composición accionaria.</li><li>Beneficiario final.</li><li>Cámara de Comercio.</li><li>RUT.</li><li>Cédula.</li><li>Estados financieros.</li><li>Declaración de renta.</li></ul><h4>30.11 Autorizaciones</h4><ul><li>Origen de fondos.</li><li>Tratamiento de datos.</li><li>Consulta de fuentes.</li><li>Consulta de accionistas.</li><li>Centrales de riesgo.</li><li>Reporte a autoridades.</li></ul><h5>La aceptación debe registrar</h5><ul><li>Usuario.</li><li>Fecha.</li><li>Hora.</li><li>IP.</li><li>Versión.</li></ul><h4>30.12 Solicitudes inactivas</h4><h5>Si una solicitud queda sin actividad</h5><ul><li>Debe marcarse inactiva.</li><li>El plazo debe ser configurable.</li><li>Debe notificarse antes de expirar.</li><li>Puede pasar a vencida.</li><li>No se elimina.</li><li>Puede reactivarse.</li><li>Deben validarse nuevamente los documentos.</li><li>Comercial debe visualizar solicitudes próximas a vencer.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>31. UI/UX del Comercio<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>31.1 Login</h4><h5>Debe mostrar</h5><ul><li>Correo.</li><li>Botón enviar código.</li><li>Campo OTP.</li><li>Reenvío.</li><li>Expiración.</li><li>Mensajes claros.</li><li>Límite de intentos.</li></ul><h4>31.2 Dashboard</h4><h5>Debe mostrar</h5><ul><li>Estado general.</li><li>Productos solicitados.</li><li>Avance por producto.</li><li>Próximo paso.</li><li>Tareas.</li><li>Observaciones.</li><li>Documentos.</li><li>NDA.</li><li>KYC/KYB.</li><li>Due diligence.</li><li>Oferta de Valor.</li><li>Contrato.</li><li>Integración.</li><li>Tickets.</li><li>Activación.</li><li>Productos Live.</li></ul><h5>Mensajes sugeridos</h5><ul><li>Debes firmar el NDA.</li><li>Tu NDA está pendiente.</li><li>Tu NDA fue aprobado.</li><li>Tu expediente fue enviado.</li><li>Tu solicitud está en revisión.</li><li>Debes corregir un documento.</li><li>Ya puedes revisar tu Oferta.</li><li>Acepta la Oferta para continuar.</li><li>Ya puedes acceder a documentación.</li><li>Estamos esperando tus pruebas.</li><li>Tienes una respuesta técnica.</li><li>Tu producto está listo.</li><li>Tu producto ya está Live.</li></ul><h4>31.3 Formulario</h4><h5>Pasos</h5><ul><li>Información básica.</li><li>AML.</li><li>Cumplimiento.</li><li>Regulador.</li><li>Productos.</li><li>Ingresos.</li><li>Documentos.</li><li>Autorizaciones.</li><li>Asesor.</li><li>Resumen.</li><li>NDA.</li></ul><h5>Debe tener</h5><ul><li>Barra de progreso.</li><li>Guardado automático.</li><li>Campos obligatorios.</li><li>Validación.</li><li>Posibilidad de retomar.</li></ul><h4>31.4 Carga documental</h4><h5>Debe permitir</h5><ul><li>Ver documentos requeridos.</li><li>Cargar.</li><li>Reemplazar.</li><li>Ver estado.</li><li>Ver observaciones.</li><li>Ver vigencia.</li><li>Descargar copia.</li></ul><h5>Estados</h5><ul><li>Pendiente.</li><li>Cargado.</li><li>En revisión.</li><li>Observado.</li><li>Aprobado.</li><li>Vencido.</li></ul><h4>31.5 NDA</h4><h5>Debe permitir</h5><ul><li>Consultar documento.</li><li>Ver versión.</li><li>Identificar firmante.</li><li>Enviar a firma.</li><li>Firmar.</li><li>Consultar estado.</li><li>Consultar evidencia.</li><li>Descargar copia.</li><li>Ver aprobación.</li></ul><h5>Estados</h5><ul><li>Pendiente.</li><li>Enviado.</li><li>Visualizado.</li><li>Firmado.</li><li>En validación.</li><li>Aprobado.</li><li>Rechazado.</li><li>Vencido.</li></ul><h4>31.6 Oferta de Valor</h4><h5>Debe permitir</h5><ul><li>Ver producto.</li><li>Ver alcance.</li><li>Ver tarifas.</li><li>Ver condiciones.</li><li>Ver vigencia.</li><li>Descargar.</li><li>Aceptar.</li><li>Consultar versión.</li></ul><h4>31.7 Centro técnico</h4><h5>Debe mostrar</h5><ul><li>Producto.</li><li>Documentación.</li><li>Ambiente QA.</li><li>Credenciales QA.</li><li>Llave RSA.</li><li>URLs.</li><li>Webhooks.</li><li>Pruebas.</li><li>Tickets.</li><li>Solicitud de revisión.</li></ul><h4>31.8 Llaves RSA</h4><h5>Debe mostrar</h5><ul><li>Explicación.</li><li>Advertencia.</li><li>Opción de cargar.</li><li>Opción de generar.</li><li>Guía.</li><li>Estado.</li><li>Historial.</li></ul><h4>31.9 Tickets</h4><h5>Debe permitir</h5><ul><li>Crear.</li><li>Seleccionar categoría.</li><li>Describir.</li><li>Adjuntar evidencia.</li><li>Consultar estado.</li><li>Ver respuesta.</li><li>Responder solicitudes.</li><li>Ver sesiones.</li><li>Consultar cerrados.</li></ul><h4>31.10 Contrato</h4><h5>Debe mostrar</h5><ul><li>Productos contratados.</li><li>Tarifas.</li><li>Oferta aceptada.</li><li>Estado de firma.</li><li>Copia final.</li><li>Anexos.</li></ul><h4>31.11 Credenciales productivas</h4><h5>Debe exigir</h5><ul><li>MFA.</li><li>Confirmación de identidad.</li><li>Aceptación de custodia.</li><li>Descarga segura.</li><li>Registro de entrega.</li></ul><h5>Nunca debe permitir</h5><ul><li>Ver secretos sin MFA.</li><li>Ver secretos de otro comercio.</li><li>Ver secretos indefinidamente.</li><li>Enviar secretos por correo.</li><li>Recibir secretos por ticket.</li></ul><h4>31.12 Estado Live</h4><h5>Debe mostrar</h5><ul><li>Producto.</li><li>Fecha de activación.</li><li>Estado.</li><li>Credenciales entregadas.</li><li>Configuración.</li><li>Canal de soporte.</li><li>Productos activos.</li></ul><h4>31.13 Nueva solicitud</h4><h5>Debe permitir</h5><ul><li>Seleccionar un producto adicional.</li><li>Validar expediente.</li><li>Validar NDA.</li><li>Mostrar documentos vencidos.</li><li>Solicitar actualización.</li><li>Crear nueva solicitud.</li><li>Ejecutar las etapas aplicables.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>32. UI/UX Backoffice<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>32.1 Comercial</h4><h5>Debe tener</h5><ul><li>Bandeja.</li><li>Vista 360.</li><li>Productos seleccionados.</li><li>Productos activos.</li><li>Tarifas.</li><li>Oferta de Valor.</li><li>Bloqueos.</li><li>SLA.</li><li>Próxima acción.</li><li>Filtros por producto.</li><li>Filtros por estado.</li><li>Filtros por segmento.</li><li>Filtros por fecha.</li><li>Filtros por bloqueo.</li></ul><h4>32.2 Riesgo</h4><h5>Debe tener</h5><ul><li>Bandeja de casos.</li><li>Expediente.</li><li>Documentos.</li><li>Alertas.</li><li>Decisiones.</li><li>Observaciones.</li><li>Aprobación.</li><li>Rechazo.</li><li>Banderas.</li><li>Historial.</li><li>Filtros por riesgo.</li><li>Filtros por producto.</li><li>Filtros por segmento.</li><li>Filtros por fecha.</li></ul><h4>32.3 Integraciones</h4><h5>Debe tener</h5><ul><li>Bandeja técnica.</li><li>Caso de Integración.</li><li>Documentación.</li><li>Llaves RSA.</li><li>Credenciales QA.</li><li>Pruebas.</li><li>Tickets.</li><li>Configuración.</li><li>Credenciales productivas.</li><li>Activación.</li><li>SLA.</li><li>Responsable.</li><li>Tiempo pendiente por MOVii.</li><li>Tiempo pendiente por comercio.</li><li>Filtros por producto.</li><li>Filtros por ambiente.</li><li>Filtros por estado.</li><li>Filtros por responsable.</li><li>Filtros por tickets.</li></ul><h4>32.4 Gerencia</h4><h5>Debe mostrar</h5><ul><li>Comercios registrados.</li><li>Solicitudes.</li><li>Solicitudes aprobadas.</li><li>Solicitudes rechazadas.</li><li>Productos solicitados.</li><li>Productos Live.</li><li>Clientes Live.</li><li>Tiempos.</li><li>Bloqueos.</li><li>Conversión.</li><li>Funnel por producto.</li><li>Tickets.</li><li>SLA.</li><li>Cuellos de botella.</li><li>Causas de devolución.</li><li>Conversión por Comercial.</li></ul><h4>32.5 Administrador</h4><h5>Debe configurar por producto</h5><ul><li>Requiere NDA.</li><li>Requiere Oferta de Valor.</li><li>Requiere contrato.</li><li>Requiere documentación.</li><li>Requiere credenciales QA.</li><li>Requiere pruebas.</li><li>Requiere credenciales productivas.</li><li>Requiere tarifa.</li><li>Requiere cuenta de recaudo.</li><li>Requiere llave RSA.</li><li>Requiere configuración.</li><li>Permite tickets.</li><li>Permite autogestión.</li><li>Permite nueva solicitud.</li><li>Requiere revisión de Riesgo.</li><li>Vigencia documental.</li></ul><h5>El catálogo administrable debe limitarse a</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li></ul><h5>También debe permitir</h5><ul><li>Crear usuarios.</li><li>Editar usuarios.</li><li>Activar o desactivar.</li><li>Asignar roles.</li><li>Ver permisos.</li><li>Consultar auditoría.</li><li>Configurar documentos.</li><li>Configurar estados.</li><li>Configurar transiciones.</li><li>Configurar SLA.</li><li>Configurar notificaciones.</li><li>Configurar reglas.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>33. Estados principales<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>33.1 Estados visibles</h4><ul><li>Registro iniciado.</li><li>Formulario en progreso.</li><li>Solicitud enviada.</li><li>Falta información.</li><li>Información corregida.</li><li>NDA pendiente.</li><li>NDA en firma.</li><li>NDA firmado.</li><li>NDA en validación.</li><li>NDA aprobado.</li><li>NDA rechazado.</li><li>Enviado a KYC/KYB.</li><li>Due diligence en revisión.</li><li>Due diligence aprobado.</li><li>Due diligence no aprobado.</li><li>Oferta de Valor pendiente.</li><li>Oferta de Valor disponible.</li><li>Oferta de Valor aceptada.</li><li>Documentación disponible.</li><li>Credenciales QA disponibles.</li><li>En pruebas.</li><li>Esperando comercio.</li><li>Ticket creado.</li><li>Ticket respondido.</li><li>Sesión requerida.</li><li>Sesión en coordinación.</li><li>Pruebas aprobadas.</li><li>Contrato pendiente.</li><li>Contrato firmado.</li><li>Producto en activación.</li><li>Credenciales productivas disponibles.</li><li>Producto Live.</li><li>Cliente Live.</li></ul><h4>33.2 Estados internos</h4><ul><li>Borrador.</li><li>Pendiente OTP.</li><li>En diligenciamiento.</li><li>Expediente creado.</li><li>NDA pendiente.</li><li>NDA generado.</li><li>NDA enviado.</li><li>NDA visualizado.</li><li>NDA firmado.</li><li>NDA en validación.</li><li>NDA aprobado.</li><li>NDA rechazado.</li><li>NDA vencido.</li><li>Enviado a KYC/KYB.</li><li>KYC/KYB en proceso.</li><li>KYC/KYB aprobado.</li><li>Observación subsanable.</li><li>Observación de riesgo.</li><li>Pendiente información.</li><li>Pendiente revisión Riesgo.</li><li>Due diligence aprobado.</li><li>Due diligence condicionado.</li><li>Due diligence rechazado.</li><li>Comercio bloqueado.</li><li>Pendiente parametrización.</li><li>Tarifa parametrizada.</li><li>Oferta generada.</li><li>Oferta enviada.</li><li>Oferta visualizada.</li><li>Oferta aceptada.</li><li>Oferta pendiente de ajuste.</li><li>Documentación habilitada.</li><li>Pendiente llave RSA.</li><li>Llave cargada.</li><li>Llave validada.</li><li>Credenciales QA pendientes.</li><li>Credenciales QA generadas.</li><li>En pruebas.</li><li>Esperando comercio.</li><li>Ticket creado.</li><li>Ticket en revisión.</li><li>Ticket respondido.</li><li>Ticket pendiente por comercio.</li><li>Ticket cerrado.</li><li>Pruebas fallidas.</li><li>Pruebas aprobadas.</li><li>No requiere pruebas.</li><li>Contrato generado.</li><li>Contrato pendiente.</li><li>Contrato firmado.</li><li>Contrato aprobado.</li><li>Pendiente configuración.</li><li>Configuración parcial.</li><li>Configuración completa.</li><li>Pendiente credenciales productivas.</li><li>Credenciales productivas generadas.</li><li>Credenciales cifradas.</li><li>Credenciales entregadas.</li><li>Producto Live.</li><li>Cliente Live.</li><li>Suspendido.</li><li>Cerrado.</li></ul><h4>33.3 Estados de nueva solicitud</h4><ul><li>Nueva solicitud iniciada.</li><li>Validando documentos.</li><li>Validando NDA.</li><li>Nuevo NDA requerido.</li><li>Documentación vigente.</li><li>Documentación vencida.</li><li>Actualización requerida.</li><li>Revisión complementaria.</li><li>Nueva solicitud aprobada.</li><li>Nueva solicitud rechazada.</li><li>Producto en Oferta.</li><li>Producto en integración.</li><li>Producto en contrato.</li><li>Producto en activación.</li><li>Producto Live.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>34. Checklist de liberación productiva<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>No se puede liberar un producto si falta un elemento aplicable</h5><ul><li>OTP validado.</li><li>Formulario completo.</li><li>Documentos cargados.</li><li>Autorizaciones aceptadas.</li><li>NDA aprobado.</li><li>KYC/KYB ejecutado.</li><li>Due diligence aprobado.</li><li>Tarifa parametrizada.</li><li>Oferta de Valor aceptada.</li><li>Documentación habilitada.</li><li>Llave RSA validada.</li><li>Credenciales QA generadas.</li><li>Pruebas aprobadas.</li><li>Contrato firmado.</li><li>Configuración completa.</li><li>Configuración GLIC.</li><li>Configuración RS2.</li><li>MATCH cuando aplique.</li><li>Código de servicio cuando aplique.</li><li>Cuenta de recaudo cuando aplique.</li><li>Mahindra cuando aplique.</li><li>API Gateway cuando aplique.</li><li>Dependencias externas completadas.</li><li>Credenciales productivas generadas.</li><li>Credenciales almacenadas.</li><li>Credenciales cifradas.</li><li>Usuario autorizado.</li><li>Auditoría activa.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>35. Happy path<span>Ver detalle</span></summary>
+      <div class="req-content"><ul><li>El comercio ingresa.</li><li>Valida OTP.</li><li>Completa el formulario.</li><li>Selecciona productos.</li><li>Declara ingresos.</li><li>Carga documentos.</li><li>Acepta autorizaciones.</li><li>Se crea el expediente.</li><li>Se genera el NDA.</li><li>El comercio firma.</li><li>Se valida el NDA.</li><li>Se envía a KYC/KYB.</li><li>Riesgo revisa.</li><li>Se aprueba el due diligence.</li><li>Comercial parametriza tarifas.</li><li>Se genera la Oferta de Valor.</li><li>El comercio acepta.</li><li>Se habilita documentación.</li><li>Se crea el Caso de Integración.</li><li>Se generan credenciales QA.</li><li>Se gestiona llave RSA cuando aplique.</li><li>El comercio ejecuta pruebas.</li><li>El comercio crea tickets si lo necesita.</li><li>Integraciones responde.</li><li>Integraciones coordina sesiones si aplica.</li><li>Integraciones aprueba pruebas.</li><li>Se genera contrato.</li><li>El comercio firma.</li><li>Se completa la configuración.</li><li>Se generan credenciales productivas.</li><li>Se cifran.</li><li>El comercio accede mediante MFA.</li><li>El comercio descarga.</li><li>El producto queda Live.</li><li>El comercio queda Cliente Live cuando tenga al menos un producto activo.</li><li>La solicitud de otro producto no hace parte de este happy path.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>36. Exception path<span>Ver detalle</span></summary>
+      <div class="req-content"><h4>36.1 Bloqueo documental</h4><ul><li>Solicitar corrección.</li><li>Reemplazar documento.</li><li>Revisar nuevamente.</li></ul><h4>36.2 Bloqueo de NDA</h4><ul><li>Corregir firmante.</li><li>Volver a firmar.</li><li>Validar evidencia.</li><li>Mantener bloqueado KYC/KYB.</li></ul><h4>36.3 Bloqueo de Riesgo</h4><ul><li>Analizar alerta.</li><li>Aprobar.</li><li>Aprobar con condiciones.</li><li>Rechazar.</li></ul><h4>36.4 Bloqueo de Oferta de Valor</h4><ul><li>Parametrizar tarifa.</li><li>Ajustar condiciones.</li><li>Regenerar Oferta.</li><li>Solicitar aceptación.</li></ul><h4>36.5 Bloqueo técnico</h4><ul><li>Crear ticket.</li><li>Solicitar ajuste.</li><li>Coordinar sesión.</li><li>Validar nuevamente.</li></ul><h4>36.6 Ticket técnico</h4><ul><li>Crear.</li><li>Revisar.</li><li>Responder.</li><li>Solicitar información.</li><li>Coordinar sesión.</li><li>Cerrar.</li></ul><h4>36.7 Bloqueo tarifario</h4><ul><li>Parametrizar tarifa.</li><li>Generar Oferta.</li><li>Habilitar contrato.</li></ul><h4>36.8 Bloqueo contractual</h4><ul><li>Firmar contrato.</li><li>Validar evidencia.</li><li>Gestionar anexo.</li></ul><h4>36.9 Bloqueo productivo</h4><ul><li>Revisar checklist.</li><li>Completar configuración.</li><li>Registrar evidencia.</li><li>Liberar cuando todo esté completo.</li></ul><h4>36.10 Bloqueo de seguridad</h4><ul><li>Revocar credenciales.</li><li>Regenerar secretos.</li><li>Bloquear acceso.</li><li>Registrar incidente.</li></ul><h4>36.11 Bloqueo de nueva solicitud</h4><ul><li>Validar vigencia.</li><li>Actualizar documentos.</li><li>Gestionar nuevo NDA.</li><li>Ejecutar revisión complementaria.</li></ul><h4>36.12 Bloqueo por tercero</h4><ul><li>Registrar dependencia.</li><li>Identificar tercero.</li><li>Registrar fecha.</li><li>Mostrar estado.</li><li>Notificar al comercio.</li><li>Controlar SLA.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>37. Criterios de aceptación globales<span>Ver detalle</span></summary>
+      <div class="req-content"><h5>El portal estará listo cuando permita</h5><ul><li>Registrar comercios.</li><li>Validar OTP.</li><li>Completar formularios.</li><li>Seleccionar exclusivamente los productos autorizados.</li><li>Segmentar por ingresos.</li><li>Solicitar documentos dinámicos.</li><li>Aceptar autorizaciones.</li><li>Crear expediente maestro.</li><li>Crear solicitudes por producto.</li><li>Gestionar NDA.</li><li>Bloquear KYC/KYB sin NDA.</li><li>Integrarse con el agente existente.</li><li>Gestionar observaciones.</li><li>Aprobar due diligence.</li><li>Parametrizar tarifas.</li><li>Generar Oferta de Valor.</li><li>Aceptar Oferta de Valor.</li><li>Habilitar documentación.</li><li>Crear casos de integración.</li><li>Gestionar RSA.</li><li>Gestionar credenciales QA.</li><li>Gestionar pruebas.</li><li>Gestionar tickets.</li><li>Coordinar sesiones.</li><li>Gestionar contratos.</li><li>Configurar productos.</li><li>Registrar configuraciones internas.</li><li>Generar credenciales productivas.</li><li>Cifrar credenciales.</li><li>Entregarlas de forma segura.</li><li>Marcar Producto Live.</li><li>Marcar Cliente Live.</li><li>Consultar productos activos.</li><li>Crear nuevas solicitudes.</li><li>Validar vigencias.</li><li>Auditar acciones.</li><li>Administrar roles.</li><li>Mantener fuera del alcance la operación financiera.</li></ul><h5>Evitar la aparición de productos diferentes a</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>38. Frase ejecutiva del proyecto<span>Ver detalle</span></summary>
+      <div class="req-content"><p>El Portal de Onboarding y Autogestión de Comercios Directos MOVii será una plataforma digital, segura, trazable y autogestionada que permitirá masificar la vinculación de comercios, reducir el Time-to-Connect y eliminar reprocesos manuales.</p><h5>La plataforma centralizará el NDA previo a KYC/KYB, due diligence, Oferta de Valor, integración, tickets técnicos, tarifas, contrato, configuración productiva y entrega segura de credenciales para</h5><ul><li>PSE.</li><li>ACH.</li><li>QR.</li><li>Tap to Phone.</li><li>Botón de Pago.</li><li>Tarjeta.</li><li>Bre-B.</li><li>MOVii Pay.</li><li>Dispersión.</li><li>El happy path llevará al comercio hasta Producto Live o Cliente Live.</li><li>Cualquier solicitud relacionada con otros productos no incluidos en el MVP deberá contar con un levantamiento y una aprobación de alcance independientes.</li></ul></div>
+    </details>
+    
+
+    <details class="req-section">
+      <summary>39. Gestión de fondos como iniciativa independiente<span>Ver detalle</span></summary>
+      <div class="req-content"><ul><li>La gestión operativa de fondos no forma parte de este requerimiento.</li></ul><h5>No se incluye</h5><ul><li>Consulta de saldos.</li><li>Consulta de movimientos.</li><li>Transferencias.</li><li>Retiros.</li><li>Ejecución de dispersiones.</li><li>Administración de beneficiarios.</li><li>Cuentas destino.</li><li>Límites.</li><li>Aprobaciones financieras.</li><li>Cancelaciones.</li><li>Reversos.</li><li>Conciliación.</li><li>Autorización transaccional.</li><li>Soporte de incidentes financieros.</li><li>Carga de lotes productivos.</li><li>Ejecución de instrucciones financieras.</li></ul><h5>Aunque Dispersión se encuentra dentro del catálogo del MVP, su alcance se limita a</h5><ul><li>Vinculación.</li><li>Evaluación.</li><li>Contratación.</li><li>Integración.</li><li>Configuración.</li><li>Entrega de credenciales.</li><li>Activación.</li><li>La operación posterior deberá contar con un levantamiento funcional independiente.</li><li>Tech no deberá incluir la gestión operativa de fondos dentro de la estimación del MVP del Portal de Onboarding.</li></ul></div>
+    </details>
+    
+  </section>
+</section>
+
+<div class="footer">MOVii · Portal de Onboarding y Autogestión de Comercios Directos · HTML definitivo</div>
+</main>
+
+<script>
+const buttons=[...document.querySelectorAll('[data-view]')];
+const views={resumen:document.getElementById('view-resumen'),completo:document.getElementById('view-completo')};
+buttons.forEach(btn=>btn.addEventListener('click',()=>{
+  buttons.forEach(b=>b.classList.toggle('active',b===btn));
+  Object.entries(views).forEach(([key,node])=>node.classList.toggle('active',key===btn.dataset.view));
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+const reqs=[...document.querySelectorAll('.req-section')];
+document.getElementById('open-all').addEventListener('click',()=>reqs.forEach(x=>x.open=true));
+document.getElementById('close-all').addEventListener('click',()=>reqs.forEach(x=>x.open=false));
+document.getElementById('req-search').addEventListener('input',e=>{
+  const q=e.target.value.trim().toLowerCase();
+  reqs.forEach(x=>{
+    const match=!q||x.textContent.toLowerCase().includes(q);
+    x.style.display=match?'block':'none';
+    if(q&&match)x.open=true;
+  });
+});
+</script>
 </body>
 </html>
